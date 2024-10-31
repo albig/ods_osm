@@ -8,7 +8,7 @@
       }
     ],
     "require": {
-      "bobosch/ods_osm": "@dev",
+      "bobosch/ods-osm": "@dev",
       "typo3/cms-core": "^13.4",
       "php": ">=8.2"
     },
