@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Default" />
+
+
+<f:section name="main">
+    <f:debug>{_all}</f:debug>
+    <h1>Leaflet</h1>
+    <f:render partial="Map/Leaflet" arguments="{_all}" />
+    <div style="width:100%; height:80vh;" id="osm_{currentUid}"></div>
+</f:section>
+
+<f:section name="HeaderAssets">
+    <link rel="stylesheet" href="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.css')}"/>
+    <script 
+        type="text/javascript" src="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.js')}">
+    </script>
+</f:section>
+
+<f:section name="FooterAssets">
+    <script 
+        type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+        osm_2 = new L.Map('osm_2',
+            {
+                scrollWheelZoom: true,
+                dragging: true
+            });
+            var layer_1 = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{"maxZoom":19,"attribution":"\u00a9 <a href=\"http:\/\/www.openstreetmap.org\/copyright\">OpenStreetMap contributors<\/a>"});
+                osm_2.addLayer(layer_1);
+        var center = new L.LatLng(51.05568675999999, 13.735343927000002);
+        osm_2.setView(center, 13);
+    }, false);
+
+    </script>
+</f:section>
+
+</html>

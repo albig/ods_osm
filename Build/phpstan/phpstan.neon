@@ -1,0 +1,17 @@
+includes:
+  - phpstan-baseline.neon
+
+parameters:
+    level: 7
+    paths:
+        - ../../Classes/
+        - ../../Configuration/
+
+    reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
+    typo3:
+        requestGetAttributeMapping:
+            frontend.page.information: \TYPO3\CMS\Frontend\Page\PageInformation
+            frontend.cache.collector: \TYPO3\CMS\Core\Cache\CacheDataCollector

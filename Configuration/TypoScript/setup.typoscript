@@ -1,0 +1,23 @@
+plugin.tx_osm {
+  view {
+    templateRootPaths {
+      0 = EXT:osm/Resources/Private/Templates/
+    }
+
+    partialRootPaths {
+      0 = EXT:osm/Resources/Private/Partials/
+    }
+
+    layoutRootPaths {
+      0 = EXT:osm/Resources/Private/Layouts/
+    }
+  }
+
+  persistence {
+    storagePid = {$plugin.tx_osm.persistence.storagePid}
+  }
+
+  settings {
+    singleViewPageUid = {$plugin.tx_osm.settings.singleViewPageUid}
+  }
+}

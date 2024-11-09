@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Default" />
+
+
+<f:section name="main">
+    <f:debug>{_all}</f:debug>
+    <h1>OpenLayers</h1>
+    <div style="width:100%; height:80vh;" id="osm_{currentUid}"></div>
+    <div id="popup" class="ol-popup">
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
+</f:section>
+
+<f:section name="HeaderAssets">
+    <link rel="stylesheet" href="{f:uri.resource(path: 'OpenLayers/ol.css')}"/>
+    <script 
+        type="text/javascript" src="{f:uri.resource(path: 'OpenLayers/dist/ol.js')}">
+    </script>
+</f:section>
+
+<f:section name="FooterAssets">
+    <script 
+        type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(){
+			
+		view = new ol.View({
+			center: [0, 0],
+			zoom: 1
+		});
+
+        baselayergroup = new ol.layer.Group({
+            name: 'baselayergroup',
+            title: 'Base Layer',
+            layers: [
+                new ol.layer.Tile({
+                    type: 'base',
+                    source: new ol.source.OSM(),
+                })
+            ]
+        });
+
+        overlaygroup = new ol.layer.Group({
+            name: 'overlaygroup',
+            title: 'Overlays',
+            layers: []
+        });
+
+        const styleCache = {};
+        clusters = new ol.layer.Vector({
+            name: 'clusters',
+            title: 'Cluster Layer',
+            source: new ol.source.Cluster({
+                distance: 80,
+                minDistance: 10,
+                source: new ol.source.Vector({
+                    name: 'source',
+                    features: [],
+                })
+            }),
+            style: function (feature) {
+                const size = feature.get('features').length;
+                if (size > 1) {
+                    style = new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: 20,
+                            stroke: new ol.style.Stroke({
+                                color: '#fff',
+                            }),
+                            fill: new ol.style.Fill({
+                                color: '#3399CC',
+                            }),
+                        }),
+                        text: new ol.style.Text({
+                            text: size.toString(),
+                            fill: new ol.style.Fill({
+                                color: '#fff',
+                            }),
+                        }),
+                    });
+                } else {
+                    style = feature.get('features')[0].values_.style;
+                }
+                return style;
+            },
+        });
+
+        layers = [
+            baselayergroup,
+            overlaygroup
+        ];
+
+		var osm_2 = new ol.Map({
+			target: 'osm_2',
+            controls:[new ol.control.Attribution(),new ol.control.Zoom(),new ol.control.Rotate(),new ol.control.ScaleLine()],
+			layers: layers,
+			view: view
+        });
+
+        // Popup showing the position the user clicked
+        var container = document.getElementById('popup');
+        var closer = document.getElementById('popup-closer');
+        var content = document.getElementById('popup-content');
+        var popup = new ol.Overlay({
+            element: container,
+            autoPan: true,
+            autoPanAnimation: {
+                duration: 100
+            }
+        });
+        osm_2.addOverlay(popup);
+        closer.onclick = function () {
+            popup.setPosition(undefined);
+            content.innerHTML = '';
+            closer.blur();
+            return false;
+        };
+        
+			osm_2_0_baselayergroup =
+                    new ol.layer.Tile({
+                        type: 'base',
+                        combine: 'true',
+                        visible: true,
+                        title: 'Mapnik',
+                        source: new ol.source.OSM({
+                            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            attributions: [
+                                '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+                            ]
+                        })
+                    });
+                baselayergroup.getLayers().push(osm_2_0_baselayergroup);
+        
+osm_2_1_baselayergroup =
+                    new ol.layer.Tile({
+                        type: 'base',
+                        combine: 'true',
+                        visible: false,
+                        title: 'SLUB Renderer',
+                        source: new ol.source.OSM({
+                            url: 'https://tile-{1-4}.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png',
+                            attributions: [
+                                '© <a href="https://kartenforum.slub-dresden.de/">SLUB</a> <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+                            ]
+                        })
+                    });
+                baselayergroup.getLayers().push(osm_2_1_baselayergroup);
+        
+osm_2_2_baselayergroup =
+                    new ol.layer.Tile({
+                        type: 'base',
+                        combine: 'true',
+                        visible: false,
+                        title: 'Stamen Watercolor',
+                        source: new ol.source.OSM({
+                            url: 'https://watercolormaps.collection.cooperhewitt.org/tile/watercolor/{z}/{x}/{y}.png',
+                            attributions: [
+                                'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+                            ]
+                        })
+                    });
+                baselayergroup.getLayers().push(osm_2_2_baselayergroup);
+        
+		    
+			
+			view.setCenter(ol.proj.transform([13.735343927, 51.05568676], 'EPSG:4326', 'EPSG:3857'));
+			view.setZoom(13);
+
+            var fullScreen = new ol.control.FullScreen();
+          osm_2.addControl(fullScreen);
+        
+}, false);
+</script>
+</f:section>
+
+</html>
