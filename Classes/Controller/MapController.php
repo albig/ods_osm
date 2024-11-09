@@ -6,7 +6,7 @@ namespace Bobosch\Osm\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Bobosch\Osm\Domain\Model\Map;
-use Bobosch\Osm\Domain\Repository\MapRepository;
+// use Bobosch\Osm\Domain\Repository\MapRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 
@@ -15,13 +15,13 @@ use TYPO3\CMS\Extbase\Http\ForwardResponse;
  */
 class MapController extends ActionController
 {
-    private MapRepository $mapRepository;
+    // private MapRepository $mapRepository;
 
-    public function __construct(MapRepository $mapRepository)
-    {
-        $this->mapRepository = $mapRepository;
+    // public function __construct(MapRepository $mapRepository)
+    // {
+    //     $this->mapRepository = $mapRepository;
 
-    }
+    // }
 
     public function showAction(): ResponseInterface
     {
