@@ -10,6 +10,6 @@ class LonLat
          if ($value && $value !== '') {
             return sprintf('%01.6f', $value);
         }
-        return null;
+        return '';
     }
 }
