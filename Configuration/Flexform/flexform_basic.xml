@@ -4,14 +4,11 @@
 	</meta>
 	<sheets>
 		<sDEF>
-			<ROOT>
-				<TCEforms>
+			<ROOT>				
 					<sheetTitle>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.sheet_sDEF</sheetTitle>
-				</TCEforms>
 				<type>array</type>
 				<el>
 					<marker>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.marker</label>
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.marker.description</description>
 							<config>
@@ -23,18 +20,14 @@
 								<maxitems>9999</maxitems>
 								<autoSizeMax>20</autoSizeMax>
 							</config>
-						</TCEforms>
 					</marker>
 					<cluster>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.cluster</label>
 							<config>
 								<type>check</type>
 							</config>
-						</TCEforms>
 					</cluster>
 					<cluster_radius>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.cluster_radius</label>
 							<displayCond>FIELD:cluster:!=:0</displayCond>
 							<config>
@@ -42,28 +35,22 @@
 								<size>5</size>
 								<eval>int</eval>
 							</config>
-						</TCEforms>
 					</cluster_radius>
 					<width>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.width</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
 							</config>
-						</TCEforms>
 					</width>
 					<height>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.height</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
 							</config>
-						</TCEforms>
 					</height>
 					<lon>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tx_odsosm_lon</label>
 							<config>
 								<type>input</type>
@@ -75,28 +62,22 @@
 									</locationMap>
 								</fieldControl>
 							</config>
-						</TCEforms>
 					</lon>
 					<lat>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tx_odsosm_lat</label>
 							<config>
 								<type>input</type>
 								<size>10</size>
 								<eval>Bobosch\OdsOsm\Evaluation\LonLat</eval>
 							</config>
-						</TCEforms>
 					</lat>
 					<use_coords_only_nomarker>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.use_coords_only_nomarker</label>
 							<config>
 								<type>check</type>
 							</config>
-						</TCEforms>
 					</use_coords_only_nomarker>
 					<zoom>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.zoom</label>
 							<config>
 								<type>select</type>
@@ -180,10 +161,8 @@
 									</numIndex>
 								</items>
 							</config>
-						</TCEforms>
 					</zoom>
 					<settings.library>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.library</label>
 							<onChange>reload</onChange>
 							<config>
@@ -208,10 +187,8 @@
 									</numIndex>
 								</items>
 							</config>
-						</TCEforms>
 					</settings.library>
 					<base_layer>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:base_layer</label>
 							<description>Select used map base layer. Multiple layers may be selected here. The first layer will be used initially. All other layers are shown in the given order in the layer switcher (see below).</description>
 							<displayCond>FIELD:settings.library:IN:leaflet,openlayers</displayCond>
@@ -225,10 +202,8 @@
 								<foreign_table>tx_odsosm_layer</foreign_table>
 								<foreign_table_where>AND tx_odsosm_layer.hidden=0 AND tx_odsosm_layer.overlay=0 AND (tx_odsosm_layer.tile_url!="") ORDER BY tx_odsosm_layer.sorting</foreign_table_where>
 							</config>
-						</TCEforms>
 					</base_layer>
 					<overlays>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:overlays</label>
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays.description</description>
 							<displayCond>FIELD:settings.library:IN:leaflet,openlayers</displayCond>
@@ -242,10 +217,8 @@
 								<foreign_table>tx_odsosm_layer</foreign_table>
 								<foreign_table_where>AND tx_odsosm_layer.hidden=0 AND tx_odsosm_layer.overlay=1 AND (tx_odsosm_layer.tile_url!="") ORDER BY tx_odsosm_layer.sorting</foreign_table_where>
 							</config>
-						</TCEforms>
 					</overlays>
 					<overlays_active>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays_active</label>
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays_active.description</description>
 							<displayCond>
@@ -264,10 +237,8 @@
 								<foreign_table>tx_odsosm_layer</foreign_table>
 								<foreign_table_where>AND tx_odsosm_layer.hidden=0 AND tx_odsosm_layer.overlay=1 AND (tx_odsosm_layer.tile_url!="") ORDER BY tx_odsosm_layer.sorting</foreign_table_where>
 							</config>
-						</TCEforms>
 					</overlays_active>
 					<staticmap_layer>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.layer</label>
 							<displayCond>FIELD:settings.library:=:staticmap</displayCond>
 							<config>
@@ -283,10 +254,8 @@
 								</items>
 								<eval>required</eval>
 							</config>
-						</TCEforms>
 					</staticmap_layer>
 					<show_popups>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_popups</label>
 							<displayCond>FIELD:settings.library:IN:openlayers,leaflet</displayCond>
 							<onChange>reload</onChange>
@@ -309,10 +278,8 @@
 								</items>
 								<default>1</default>
 							</config>
-						</TCEforms>
 					</show_popups>
 					<marker_popup_initial>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.marker_popup_intial</label>
 							<displayCond>FIELD:show_popups:IN:1,3</displayCond>
 							<config>
@@ -323,10 +290,8 @@
 								<minitems>0</minitems>
 								<maxitems>1</maxitems>
 							</config>
-						</TCEforms>
 					</marker_popup_initial>
 					<show_layerswitcher>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_layerswitcher</label>
 							<displayCond>FIELD:settings.library:IN:leaflet,openlayers</displayCond>
 							<onChange>reload</onChange>
@@ -349,10 +314,8 @@
 								</items>
 								<default>1</default>
 							</config>
-						</TCEforms>
 					</show_layerswitcher>
 					<layerswitcher_activationMode>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.layerswitcher_activationMode</label>
 							<displayCond>
 								<and>
@@ -375,64 +338,51 @@
 								</items>
 								<default>2</default>
 							</config>
-						</TCEforms>
 					</layerswitcher_activationMode>
 					<show_fullscreen>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_fullscreen</label>
 							<displayCond>FIELD:settings.library:IN:openlayers,leaflet</displayCond>
 							<config>
 								<type>check</type>
 								<default>1</default>
 							</config>
-						</TCEforms>
 					</show_fullscreen>
 					<show_scalebar>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_scalebar</label>
 							<displayCond>FIELD:settings.library:IN:openlayers,leaflet</displayCond>
 							<config>
 								<type>check</type>
 							</config>
-						</TCEforms>
 					</show_scalebar>
 					<enable_dragging>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.enable_dragging</label>
 							<displayCond>FIELD:settings.library:=:leaflet</displayCond>
 							<config>
 								<type>check</type>
 								<default>1</default>
 							</config>
-						</TCEforms>
 					</enable_dragging>
 					<enable_scrollwheelzoom>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.enable_scrollwheelzoom</label>
 							<displayCond>FIELD:settings.library:=:leaflet</displayCond>
 							<config>
 								<type>check</type>
 								<default>1</default>
 							</config>
-						</TCEforms>
 					</enable_scrollwheelzoom>
 					<position>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.position_show</label>
 							<displayCond>FIELD:settings.library:=:leaflet</displayCond>
 							<config>
 								<type>check</type>
 							</config>
-						</TCEforms>
 					</position>
 					<mouse_position>
-						<TCEforms>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.mouse_position</label>
 							<displayCond>FIELD:settings.library:=:openlayers</displayCond>
 							<config>
 								<type>check</type>
 							</config>
-						</TCEforms>
 					</mouse_position>
 				</el>
 			</ROOT>

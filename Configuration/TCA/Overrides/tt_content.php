@@ -10,8 +10,8 @@ call_user_func(
         $pluginSignature = ExtensionUtility::registerPlugin(
             'Osm',
             'OsmShow',
-            'LLL:EXT:map/Resources/Private/Language/locallang.xlf:plugin.tea_show',
-            'EXT:map/Resources/Public/Icons/Extension.svg'
+            'LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:plugin.tea_show',
+            'EXT:ods_osm/Resources/Public/Icons/Extension.svg'
         );
 
         // This removes the default controls from the plugin.
@@ -21,7 +21,7 @@ call_user_func(
 
         ExtensionManagementUtility::addPiFlexFormValue(
             $pluginSignature,
-            'FILE:EXT:osm/Configuration/Flexform/flexform_basic.xml'
+            'FILE:EXT:ods_osm/Configuration/Flexform/flexform_basic.xml'
         );
         
     }

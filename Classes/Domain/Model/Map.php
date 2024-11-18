@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bobosch\Osm\Domain\Model;
+namespace Bobosch\OdsOsm\Domain\Model;
 
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;

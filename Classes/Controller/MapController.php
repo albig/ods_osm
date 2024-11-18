@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bobosch\Osm\Controller;
+namespace Bobosch\OdsOsm\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use Bobosch\Osm\Domain\Model\Map;
-// use Bobosch\Osm\Domain\Repository\MapRepository;
+use Bobosch\OdsOsm\Domain\Model\Map;
+// use Bobosch\OdsOsm\Domain\Repository\MapRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 
@@ -27,7 +27,7 @@ class MapController extends ActionController
     {
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $currentUid = $cObjectData->data['uid'];
-        switch ($this->settings['library']) {
+        switch ($this->settings['library'] ?? '') {
             case 'openlayers':
                 return (new ForwardResponse('openlayers'))
                     ->withArguments(['currentUid' => $currentUid]);

@@ -10,6 +10,6 @@ return static function (ContainerConfigurator $containerConfigurator) {
         ->autowire()
         ->autoconfigure();
 
-    $services->load('Bobosch\\Osm\\', '../Classes/*')
+    $services->load('Bobosch\\OdsOsm\\', '../Classes/*')
         ->exclude('../Classes/Domain/Model/*');
 };

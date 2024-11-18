@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-use Bobosch\Osm\Controller\MapController;
+use Bobosch\OdsOsm\Controller\MapController;
+use Bobosch\OdsOsm\Wizard\CoordinatepickerWizard;
+
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') or die('Access denied.');
@@ -18,3 +20,10 @@ ExtensionUtility::configurePlugin(
         MapController::class => '',
     ]
 );
+
+// Add wizard with map for setting geo location
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1616876515] = [
+    'nodeName' => 'coordinatepickerWizard',
+    'priority' => 30,
+    'class' => CoordinatepickerWizard::class
+];

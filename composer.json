@@ -1,5 +1,5 @@
 {
-    "name": "bobosch/osm",
+    "name": "bobosch/ods-osm",
     "type": "typo3-cms-extension",
     "description": "layground to re-implement ods_osm with Extbase / Fluid",
     "homepage": "https://github.com/albig/ods_osm",
@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Bobosch\\Osm\\": "Classes/"
+            "Bobosch\\OdsOsm\\": "Classes/"
         }
     },
     "extra": {
         "typo3/cms": {
-            "extension-key": "osm"
+            "extension-key": "ods_osm"
         }
     }
 }

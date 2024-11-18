@@ -18,7 +18,7 @@ $EM_CONF[$_EXTKEY] = [
     ],
     'autoload' => [
         'psr-4' => [
-            'Bobosch\\Osm\\' => 'Classes/',
+            'Bobosch\\OdsOsm\\' => 'Classes/',
         ],
     ],
     'state' => 'stable',
