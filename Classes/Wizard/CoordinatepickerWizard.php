@@ -23,6 +23,9 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
  */
 class CoordinatepickerWizard extends AbstractNode
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function render(): array
     {
         $row = $this->data['databaseRow'];
@@ -41,8 +44,8 @@ class CoordinatepickerWizard extends AbstractNode
             $lon = $row['tx_odsosm_lon'] != '' ? htmlspecialchars($row['tx_odsosm_lon']) : '';
         }
 
-        $nameLatitude = str_replace('lon', 'lat', $nameLongitude);
-        $nameLatitudeActive = str_replace('data', 'control[active]', $nameLatitude);
+        $nameLatitude = (string) str_replace('lon', 'lat', $nameLongitude);
+        $nameLatitudeActive = (string) str_replace('data', 'control[active]', $nameLatitude);
         $geoCodeUrl = '';
         $geoCodeUrlShort = '';
 
@@ -84,7 +87,6 @@ class CoordinatepickerWizard extends AbstractNode
         $resultArray['linkAttributes']['data-copy'] = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
         $resultArray['stylesheetFiles'][] = 'EXT:ods_osm/Resources/Public/JavaScript/Leaflet/Core/leaflet.css';
         $resultArray['stylesheetFiles'][] = 'EXT:ods_osm/Resources/Public/Css/Backend/leafletBackend.css';
-
 
         $pageRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
         $pageRenderer->loadJavaScriptModule('@bobosch/ods-osm/leaflet-backend.js');

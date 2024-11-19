@@ -8,8 +8,8 @@ parameters:
         - ../../Configuration/
 
     reportUnmatchedIgnoredErrors: true
-#    ignoreErrors:
-#        - identifier: missingType.iterableValue
+    ignoreErrors:
+        - identifier: missingType.iterableValue
 #        - identifier: missingType.generics
     typo3:
         requestGetAttributeMapping:

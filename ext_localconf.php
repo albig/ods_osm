@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Bobosch\OdsOsm\Controller\MapController;
+use Bobosch\OdsOsm\Evaluation\LonLat;
 use Bobosch\OdsOsm\Wizard\CoordinatepickerWizard;
-
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') or die('Access denied.');
@@ -27,3 +27,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1616876515] = [
     'priority' => 30,
     'class' => CoordinatepickerWizard::class
 ];
+
+// Register evaluations for TCA
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][LonLat::class] = '';
