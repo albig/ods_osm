@@ -6,7 +6,7 @@ namespace Bobosch\OdsOsm\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Bobosch\OdsOsm\Domain\Model\Map;
-// use Bobosch\OdsOsm\Domain\Repository\MapRepository;
+use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 
@@ -15,13 +15,16 @@ use TYPO3\CMS\Extbase\Http\ForwardResponse;
  */
 class MapController extends ActionController
 {
-    // private MapRepository $mapRepository;
+    /** @var LayerRepository */
+    protected $layerRepository;
 
-    // public function __construct(MapRepository $mapRepository)
-    // {
-    //     $this->mapRepository = $mapRepository;
-
-    // }
+	/**
+     * @param \Bobosch\OdsOsm\Domain\Repository\LayerRepository $layerRepository
+     */
+    public function injectLayerRepository(LayerRepository $layerRepository): void
+    {
+        $this->layerRepository = $layerRepository;
+    }
 
     public function showAction(): ResponseInterface
     {
@@ -55,6 +58,7 @@ class MapController extends ActionController
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $variables = [
             'currentUid' => $cObjectData->data['uid'],
+            'layer' => $this->layerRepository->findOneByUid($this->settings['base_layer'])
         ];
 
         $this->view->assignMultiple($variables);

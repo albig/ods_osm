@@ -8,9 +8,9 @@ defined('TYPO3') || die();
 call_user_func(
     static function (): void {
         $pluginSignature = ExtensionUtility::registerPlugin(
-            'Osm',
+            'OdsOsm',
             'OsmShow',
-            'LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:plugin.tea_show',
+            'LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:pi1_title',
             'EXT:ods_osm/Resources/Public/Icons/Extension.svg'
         );
 

@@ -188,7 +188,7 @@
 								</items>
 							</config>
 					</settings.library>
-					<base_layer>
+					<settings.base_layer>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:base_layer</label>
 							<description>Select used map base layer. Multiple layers may be selected here. The first layer will be used initially. All other layers are shown in the given order in the layer switcher (see below).</description>
 							<displayCond>FIELD:settings.library:IN:leaflet,openlayers</displayCond>
@@ -202,7 +202,7 @@
 								<foreign_table>tx_odsosm_layer</foreign_table>
 								<foreign_table_where>AND tx_odsosm_layer.hidden=0 AND tx_odsosm_layer.overlay=0 AND (tx_odsosm_layer.tile_url!="") ORDER BY tx_odsosm_layer.sorting</foreign_table_where>
 							</config>
-					</base_layer>
+					</settings.base_layer>
 					<overlays>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:overlays</label>
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays.description</description>

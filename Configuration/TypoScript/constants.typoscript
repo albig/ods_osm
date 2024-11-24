@@ -1,13 +1,15 @@
-plugin.tx_osm {
+plugin.tx_odsosm {
+
   persistence {
-    # cat=plugin.tx_osm//a; type=string; label=Default storage PID
+    # cat=plugin.tx_odsosm//a; type=string; label=Default storage PID
     storagePid =
-    # cat=plugin.tx_osm//a; type=int; label=UID of the page/folder where all new records will be created
+    # cat=plugin.tx_odsosm//a; type=int; label=UID of the page/folder where all new records will be created
     newRecordStoragePid =
   }
 
   settings {
-    # cat=plugin.tx_osm//a; type=int; label=UID of the page with the single view
+    # cat=plugin.tx_odsosm//a; type=int; label=UID of the page with the single view
     singleViewPageUid =
   }
+
 }

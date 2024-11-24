@@ -1,4 +1,4 @@
-plugin.tx_osm {
+plugin.tx_odsosm {
   view {
     templateRootPaths {
       0 = EXT:ods_osm/Resources/Private/Templates/
@@ -14,10 +14,10 @@ plugin.tx_osm {
   }
 
   persistence {
-    storagePid = {$plugin.tx_osm.persistence.storagePid}
+    storagePid = {$plugin.tx_odsosm.persistence.storagePid}
   }
 
   settings {
-    singleViewPageUid = {$plugin.tx_osm.settings.singleViewPageUid}
+    singleViewPageUid = {$plugin.tx_odsosm.settings.singleViewPageUid}
   }
 }

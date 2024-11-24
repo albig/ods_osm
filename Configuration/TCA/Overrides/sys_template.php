@@ -7,7 +7,7 @@ call_user_func(function()
     /**
      * Temporary variables
      */
-    $extensionKey = 'osm';
+    $extensionKey = 'ods_osm';
 
     /**
      * Default TypoScript for Osm
@@ -15,6 +15,6 @@ call_user_func(function()
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
         $extensionKey,
         'Configuration/TypoScript',
-        'Osm'
+        'OdsOsm'
     );
 });

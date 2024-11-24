@@ -8,6 +8,21 @@
     <h1>Leaflet</h1>
     <f:render partial="Map/Leaflet" arguments="{_all}" />
     <div style="width:100%; height:80vh;" id="osm_{currentUid}"></div>
+    <f:asset.script identifier="javascript-escaping-exampe">
+        document.addEventListener("DOMContentLoaded", function () <f:format.raw>{</f:format.raw>
+        osm_{currentUid} = new L.Map('osm_{currentUid}',
+            {
+                scrollWheelZoom: true,
+                dragging: true
+            });
+            var layer_1 = new L.TileLayer('https://{layer.tileUrl}',
+            <f:format.raw>{</f:format.raw>"maxZoom":19, {f:if(condition: layer.subdomains,then:'"subdomains": "{layer.subdomains}",')}"attribution":"\u00a9 <a href=\"http:\/\/www.openstreetmap.org\/copyright\">OpenStreetMap contributors<\/a>"<f:format.raw>}</f:format.raw>
+            );
+            osm_2.addLayer(layer_1);
+        var center = new L.LatLng(51.05568675999999, 13.735343927000002);
+        osm_2.setView(center, 13);
+    <f:format.raw>}</f:format.raw>, false);
+    </f:asset.script>
 </f:section>
 
 <f:section name="HeaderAssets">
@@ -18,21 +33,7 @@
 </f:section>
 
 <f:section name="FooterAssets">
-    <script 
-        type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function () {
-        osm_2 = new L.Map('osm_2',
-            {
-                scrollWheelZoom: true,
-                dragging: true
-            });
-            var layer_1 = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{"maxZoom":19,"attribution":"\u00a9 <a href=\"http:\/\/www.openstreetmap.org\/copyright\">OpenStreetMap contributors<\/a>"});
-                osm_2.addLayer(layer_1);
-        var center = new L.LatLng(51.05568675999999, 13.735343927000002);
-        osm_2.setView(center, 13);
-    }, false);
-
-    </script>
+    <f:debug>{_all}</f:debug>
 </f:section>
 
 </html>

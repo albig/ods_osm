@@ -17,14 +17,40 @@ class Layer extends AbstractEntity
     /** @var string */
     protected $title = '';
 
+    /** @var string */
+    protected $tileUrl = '';
+
+    /** @var string */
+    protected $subdomains = '';
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getTitle(): string
+    public function getTileUrl(): string
     {
-        return $this->title;
+        return $this->tileUrl;
+    }
+
+    public function setTileUrl(string $tileUrl): void
+    {
+        $this->tileUrl = $tileUrl;
+    }
+
+    public function getSubdomains(): string
+    {
+        return $this->subdomains;
+    }
+
+    public function setSubdomains(string $subdomains): void
+    {
+        $this->subdomains = $subdomains;
     }
 
 }
