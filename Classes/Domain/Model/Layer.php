@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy;
 
 /**
- * This class represents a osm layer 
+ * This class represents a osm layer
  */
 class Layer extends AbstractEntity
 {
@@ -22,6 +22,9 @@ class Layer extends AbstractEntity
 
     /** @var string */
     protected $subdomains = '';
+
+    /** @var string */
+    protected $attribution = '';
 
     public function getTitle(): string
     {
@@ -51,6 +54,16 @@ class Layer extends AbstractEntity
     public function setSubdomains(string $subdomains): void
     {
         $this->subdomains = $subdomains;
+    }
+
+    public function getAttribution(): string
+    {
+        return $this->attribution;
+    }
+
+    public function setAttribution(string $attribution): void
+    {
+        $this->attribution = $attribution;
     }
 
 }

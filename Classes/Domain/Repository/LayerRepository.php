@@ -14,4 +14,19 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class LayerRepository extends Repository
 {
+   /**
+     * @param array $uids
+     *
+     * @return QueryResultInterface<Layer>
+     */
+
+     public function findAllByUids(array $uids): QueryResultInterface
+    {
+        $q = $this->createQuery();
+        $q->matching($q->in('uid', $uids));
+        // $q->setOrderings([
+        //     'uid' => QueryInterface::ORDER_ASCENDING,
+        // ]);
+        return $q->execute();
+    }
 }

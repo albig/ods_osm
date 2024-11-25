@@ -58,7 +58,7 @@ class MapController extends ActionController
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $variables = [
             'currentUid' => $cObjectData->data['uid'],
-            'layer' => $this->layerRepository->findOneByUid($this->settings['base_layer'])
+            'layer' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer']))
         ];
 
         $this->view->assignMultiple($variables);

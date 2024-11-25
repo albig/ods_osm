@@ -8,27 +8,27 @@
     <h1>Leaflet</h1>
     <f:render partial="Map/Leaflet" arguments="{_all}" />
     <div style="width:100%; height:80vh;" id="osm_{currentUid}"></div>
+    {f:if(condition: settings.enable_scrollwheelzoom, then: 'true', else: 'false')}
     <f:asset.script identifier="javascript-escaping-exampe">
         document.addEventListener("DOMContentLoaded", function () <f:format.raw>{</f:format.raw>
         osm_{currentUid} = new L.Map('osm_{currentUid}',
-            {
-                scrollWheelZoom: true,
-                dragging: true
-            });
-            var layer_1 = new L.TileLayer('https://{layer.tileUrl}',
-            <f:format.raw>{</f:format.raw>"maxZoom":19, {f:if(condition: layer.subdomains,then:'"subdomains": "{layer.subdomains}",')}"attribution":"\u00a9 <a href=\"http:\/\/www.openstreetmap.org\/copyright\">OpenStreetMap contributors<\/a>"<f:format.raw>}</f:format.raw>
-            );
-            osm_2.addLayer(layer_1);
+        <f:format.raw>{</f:format.raw>
+        scrollWheelZoom: {f:if(condition:settings.enable_scrollwheelzoom,then:'true',else:'false')},
+        dragging: {f:if(condition:settings.enable_dragging,then:'true',else:'false')}
+        });
+        var layer_1 = new L.TileLayer('https://{layer.0.tileUrl}',
+        <f:format.raw>{</f:format.raw>"maxZoom":19, {f:if(condition: layer.0.subdomains,then:'"subdomains":"{layer.0.subdomains}",')}"attribution":'{layer.0.attribution}'<f:format.raw>}</f:format.raw>
+        );
+        osm_{currentUid}.addLayer(layer_1);
         var center = new L.LatLng(51.05568675999999, 13.735343927000002);
-        osm_2.setView(center, 13);
-    <f:format.raw>}</f:format.raw>, false);
+        osm_{currentUid}.setView(center, {settings.zoom});
+        <f:format.raw>}</f:format.raw>, false);
     </f:asset.script>
 </f:section>
 
 <f:section name="HeaderAssets">
-    <link rel="stylesheet" href="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.css')}"/>
-    <script 
-        type="text/javascript" src="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.js')}">
+    <link rel="stylesheet" href="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.css')}" />
+    <script type="text/javascript" src="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.js')}">
     </script>
 </f:section>
 
