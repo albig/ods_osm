@@ -339,14 +339,14 @@
 								<default>2</default>
 							</config>
 					</layerswitcher_activationMode>
-					<show_fullscreen>
+					<settings.show_fullscreen>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_fullscreen</label>
 							<displayCond>FIELD:settings.library:IN:openlayers,leaflet</displayCond>
 							<config>
 								<type>check</type>
 								<default>1</default>
 							</config>
-					</show_fullscreen>
+					</settings.show_fullscreen>
 					<show_scalebar>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_scalebar</label>
 							<displayCond>FIELD:settings.library:IN:openlayers,leaflet</displayCond>

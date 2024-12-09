@@ -13,6 +13,7 @@
         document.addEventListener("DOMContentLoaded", function () <f:format.raw>{</f:format.raw>
         osm_{currentUid} = new L.Map('osm_{currentUid}',
         <f:format.raw>{</f:format.raw>
+        fullscreenControl: {f:if(condition:settings.show_fullscreen,then:'true',else:'false')},
         scrollWheelZoom: {f:if(condition:settings.enable_scrollwheelzoom,then:'true',else:'false')},
         dragging: {f:if(condition:settings.enable_dragging,then:'true',else:'false')}
         });
@@ -27,8 +28,14 @@
 </f:section>
 
 <f:section name="HeaderAssets">
-    <link rel="stylesheet" href="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.css')}" />
-    <script type="text/javascript" src="{f:uri.resource(path: 'JavaScript/Leaflet/Core/leaflet.js')}">
+    <f:asset.css identifier="leaflet" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/Core/leaflet.css" />
+    <f:asset.script identifier="leaflet" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/Core/leaflet.js" priority="1" />
+    <f:if condition="{settings.show_fullscreen}">
+    <f:then>
+        <f:asset.css identifier="leaflet-fullscreen" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.css" />
+        <f:asset.script identifier="leaflet-fullscreen" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.js" priority="1"/>
+        </f:then>
+    </f:if>
     </script>
 </f:section>
 
