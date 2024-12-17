@@ -223,7 +223,7 @@
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays_active.description</description>
 							<displayCond>
 								<and>
-									<value1>FIELD:show_layerswitcher:!=:0</value1>
+									<value1>FIELD:settings.show_layerswitcher:!=:0</value1>
 									<value2>FIELD:settings.library:IN:leaflet,openlayers</value2>
 								</and>
 							</displayCond>
@@ -291,7 +291,7 @@
 								<maxitems>1</maxitems>
 							</config>
 					</marker_popup_initial>
-					<show_layerswitcher>
+					<settings.show_layerswitcher>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_layerswitcher</label>
 							<displayCond>FIELD:settings.library:IN:leaflet,openlayers</displayCond>
 							<onChange>reload</onChange>
@@ -314,13 +314,13 @@
 								</items>
 								<default>1</default>
 							</config>
-					</show_layerswitcher>
+					</settings.show_layerswitcher>
 					<layerswitcher_activationMode>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.layerswitcher_activationMode</label>
 							<displayCond>
 								<and>
 									<value1>FIELD:settings.library:IN:openlayers</value1>
-									<value2>FIELD:show_layerswitcher:!=:0</value2>
+									<value2>FIELD:settings.show_layerswitcher:!=:0</value2>
 								</and>
 							</displayCond>
 							<config>

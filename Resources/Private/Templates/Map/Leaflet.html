@@ -21,9 +21,18 @@
         <f:format.raw>{</f:format.raw>"maxZoom":19, {f:if(condition: layer.0.subdomains,then:'"subdomains":"{layer.0.subdomains}",')}"attribution":'{layer.0.attribution}'<f:format.raw>}</f:format.raw>
         );
         osm_{currentUid}.addLayer(layer_1);
+        var baseMaps = {
+            "OpenStreetMap": layer_1
+        };
+
+        var overlayMaps = [];
+        <f:if condition="{settings.show_layerswitcher} > 0">
+        var layerControl = L.control.layers(baseMaps, overlayMaps,<f:format.raw>{</f:format.raw>collapsed:{f:if(condition:'{settings.show_layerswitcher} == 1',then:'true',else:'false')}}).addTo(osm_{currentUid});
+        </f:if>
         var center = new L.LatLng(51.05568675999999, 13.735343927000002);
-        osm_{currentUid}.setView(center, {settings.zoom});
+        osm_{currentUid}.setView(center, {settings.zoom})
         <f:format.raw>}</f:format.raw>, false);
+
     </f:asset.script>
 </f:section>
 
