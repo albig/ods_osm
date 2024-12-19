@@ -11,18 +11,27 @@
     {f:if(condition: settings.enable_scrollwheelzoom, then: 'true', else: 'false')}
     <f:asset.script identifier="javascript-escaping-exampe">
         document.addEventListener("DOMContentLoaded", function () <f:format.raw>{</f:format.raw>
+        <f:for each="{baseMaps}" as="layer">
+            var layer_{layer.uid} = L.tileLayer('https://{layer.tileUrl}', {
+                maxZoom: 19,
+                <f:if condition="{layer.subdomains}">subdomains: '{layer.subdomains}',</f:if>
+                attribution: '{layer.attribution}'
+            });
+        </f:for>
         osm_{currentUid} = new L.Map('osm_{currentUid}',
         <f:format.raw>{</f:format.raw>
         fullscreenControl: {f:if(condition:settings.show_fullscreen,then:'true',else:'false')},
         scrollWheelZoom: {f:if(condition:settings.enable_scrollwheelzoom,then:'true',else:'false')},
-        dragging: {f:if(condition:settings.enable_dragging,then:'true',else:'false')}
+        dragging: {f:if(condition:settings.enable_dragging,then:'true',else:'false')},
+        layers: [layer_{baseMaps.0.uid}]
         });
-        var layer_1 = new L.TileLayer('https://{layer.0.tileUrl}',
-        <f:format.raw>{</f:format.raw>"maxZoom":19, {f:if(condition: layer.0.subdomains,then:'"subdomains":"{layer.0.subdomains}",')}"attribution":'{layer.0.attribution}'<f:format.raw>}</f:format.raw>
-        );
-        osm_{currentUid}.addLayer(layer_1);
+
+        <!-- layers: [{f:if(condition: i.isLast, then: 'layer_{layer.uid}', else: 'layer_{layer.uid},')->f:for(each:'{baseMaps}', as:'layer', iteration: 'i')}] -->
+
         var baseMaps = {
-            "OpenStreetMap": layer_1
+            <f:for each="{baseMaps}" as="layer">
+                "{layer.title}": layer_{layer.uid},
+            </f:for>
         };
 
         var overlayMaps = [];
