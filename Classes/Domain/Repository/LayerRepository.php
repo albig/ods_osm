@@ -6,6 +6,7 @@ namespace Bobosch\OdsOsm\Domain\Repository;
 
 use Bobosch\OdsOsm\Domain\Model\Layer;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -18,11 +19,12 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 class LayerRepository extends Repository
 {
    /**
-     * @param array $uidList
-     *
-     * @return array<Layer>
-     */
-     public function findAllByUids(array $uids)
+    * Find all objects by uid in order of given uids.
+    *
+    * @param array $uids
+    * @return array<Layer>
+    */
+    public function findAllByUids(array $uids)
     {
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
 
@@ -40,19 +42,5 @@ class LayerRepository extends Repository
             ->fetchAllAssociative();
 
         return $dataMapper->map(Layer::class, $rows);
-     }
-
-
-      /**
-     * @param $key
-     * @param $uidlist
-     * @return array
-     */
-    protected function orderByKey($key, $uidlist) {
-        $order = array();
-        foreach ($uidlist as $uid) {
-            $order["$key={$uid}"] = QueryInterface::ORDER_DESCENDING;
-        }
-        return $order;
     }
 }
