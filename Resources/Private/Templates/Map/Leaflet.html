@@ -30,7 +30,7 @@
         fullscreenControl: {f:if(condition:settings.show_fullscreen,then:'true',else:'false')},
         scrollWheelZoom: {f:if(condition:settings.enable_scrollwheelzoom,then:'true',else:'false')},
         dragging: {f:if(condition:settings.enable_dragging,then:'true',else:'false')},
-        layers: [layer_{baseMaps.0.uid}]
+        layers: [layer_{baseMaps.0.uid}, <f:for each="{overlaysActive}" as="layer">layer_{layer.uid},</f:for>]
         });
 
         var baseMaps = {

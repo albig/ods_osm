@@ -58,8 +58,9 @@ class MapController extends ActionController
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $variables = [
             'currentUid' => $cObjectData->data['uid'],
-            'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'])),
-            'overlayMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays']))
+            'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'] ?? [])),
+            'overlayMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? [])),
+            'overlaysActive' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? []))
         ];
 
         $this->view->assignMultiple($variables);
