@@ -18,6 +18,13 @@
                 attribution: '{layer.attribution}'
             });
         </f:for>
+        <f:for each="{overlayMaps}" as="layer">
+            var layer_{layer.uid} = L.tileLayer('https://{layer.tileUrl}', {
+                maxZoom: 19,
+                <f:if condition="{layer.subdomains}">subdomains: '{layer.subdomains}',</f:if>
+                attribution: '{layer.attribution}'
+            });
+        </f:for>
         osm_{currentUid} = new L.Map('osm_{currentUid}',
         <f:format.raw>{</f:format.raw>
         fullscreenControl: {f:if(condition:settings.show_fullscreen,then:'true',else:'false')},
@@ -26,15 +33,17 @@
         layers: [layer_{baseMaps.0.uid}]
         });
 
-        <!-- layers: [{f:if(condition: i.isLast, then: 'layer_{layer.uid}', else: 'layer_{layer.uid},')->f:for(each:'{baseMaps}', as:'layer', iteration: 'i')}] -->
-
         var baseMaps = {
             <f:for each="{baseMaps}" as="layer">
                 "{layer.title}": layer_{layer.uid},
             </f:for>
         };
 
-        var overlayMaps = [];
+        var overlayMaps = {
+            <f:for each="{overlayMaps}" as="layer">
+                "{layer.title}": layer_{layer.uid},
+            </f:for>
+        };
         <f:if condition="{settings.show_layerswitcher} > 0">
         var layerControl = L.control.layers(baseMaps, overlayMaps,<f:format.raw>{</f:format.raw>collapsed:{f:if(condition:'{settings.show_layerswitcher} == 1',then:'true',else:'false')}}).addTo(osm_{currentUid});
         </f:if>

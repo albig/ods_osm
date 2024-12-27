@@ -203,7 +203,7 @@
 								<foreign_table_where>AND tx_odsosm_layer.hidden=0 AND tx_odsosm_layer.overlay=0 AND (tx_odsosm_layer.tile_url!="") ORDER BY tx_odsosm_layer.sorting</foreign_table_where>
 							</config>
 					</settings.base_layer>
-					<overlays>
+					<settings.overlays>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang.xlf:overlays</label>
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays.description</description>
 							<displayCond>FIELD:settings.library:IN:leaflet,openlayers</displayCond>
@@ -217,7 +217,7 @@
 								<foreign_table>tx_odsosm_layer</foreign_table>
 								<foreign_table_where>AND tx_odsosm_layer.hidden=0 AND tx_odsosm_layer.overlay=1 AND (tx_odsosm_layer.tile_url!="") ORDER BY tx_odsosm_layer.sorting</foreign_table_where>
 							</config>
-					</overlays>
+					</settings.overlays>
 					<overlays_active>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays_active</label>
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.overlays_active.description</description>
