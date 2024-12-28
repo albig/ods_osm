@@ -50,7 +50,7 @@
 								<size>5</size>
 							</config>
 					</height>
-					<lon>
+					<settings.lon>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tx_odsosm_lon</label>
 							<config>
 								<type>input</type>
@@ -62,15 +62,15 @@
 									</locationMap>
 								</fieldControl>
 							</config>
-					</lon>
-					<lat>
+					</settings.lon>
+					<settings.lat>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tx_odsosm_lat</label>
 							<config>
 								<type>input</type>
 								<size>10</size>
 								<eval>Bobosch\OdsOsm\Evaluation\LonLat</eval>
 							</config>
-					</lat>
+					</settings.lat>
 					<use_coords_only_nomarker>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.use_coords_only_nomarker</label>
 							<config>
@@ -370,13 +370,13 @@
 								<default>1</default>
 							</config>
 					</settings.enable_scrollwheelzoom>
-					<position>
+					<settings.position>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.position_show</label>
 							<displayCond>FIELD:settings.library:=:leaflet</displayCond>
 							<config>
 								<type>check</type>
 							</config>
-					</position>
+					</settings.position>
 					<mouse_position>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.mouse_position</label>
 							<displayCond>FIELD:settings.library:=:openlayers</displayCond>

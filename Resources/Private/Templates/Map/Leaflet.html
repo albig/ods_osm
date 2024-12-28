@@ -47,7 +47,17 @@
         <f:if condition="{settings.show_layerswitcher} > 0">
         var layerControl = L.control.layers(baseMaps, overlayMaps,<f:format.raw>{</f:format.raw>collapsed:{f:if(condition:'{settings.show_layerswitcher} == 1',then:'true',else:'false')}}).addTo(osm_{currentUid});
         </f:if>
-        var center = new L.LatLng(51.05568675999999, 13.735343927000002);
+        var center = new L.LatLng({settings.lat}, {settings.lon});
+
+        <f:if condition="{settings.position}">
+        osm_{currentUid}.locate(<f:format.raw>{</f:format.raw>setView: true})
+            .on("locationfound",function(e){
+                var radius=e.accuracy/2;
+                L.circle(e.latlng,radius);
+            });
+        </f:if>
+
+        osm_{currentUid}.on("locationfound",function(e){var radius=e.accuracy/2;L.circle(e.latlng,radius).addTo(osm_{currentUid})});
         osm_{currentUid}.setView(center, {settings.zoom})
         <f:format.raw>}</f:format.raw>, false);
 
