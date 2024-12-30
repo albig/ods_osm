@@ -347,13 +347,13 @@
 								<default>1</default>
 							</config>
 					</settings.show_fullscreen>
-					<show_scalebar>
+					<settings.show_scalebar>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_scalebar</label>
 							<displayCond>FIELD:settings.library:IN:openlayers,leaflet</displayCond>
 							<config>
 								<type>check</type>
 							</config>
-					</show_scalebar>
+					</settings.show_scalebar>
 					<settings.enable_dragging>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.enable_dragging</label>
 							<displayCond>FIELD:settings.library:=:leaflet</displayCond>
@@ -377,13 +377,12 @@
 								<type>check</type>
 							</config>
 					</settings.position>
-					<mouse_position>
+					<settings.mouse_position>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.mouse_position</label>
-							<displayCond>FIELD:settings.library:=:openlayers</displayCond>
 							<config>
 								<type>check</type>
 							</config>
-					</mouse_position>
+					</settings.mouse_position>
 				</el>
 			</ROOT>
 		</sDEF>

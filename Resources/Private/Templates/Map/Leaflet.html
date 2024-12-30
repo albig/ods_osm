@@ -49,6 +49,13 @@
         </f:if>
         var center = new L.LatLng({settings.lat}, {settings.lon});
 
+        <f:if condition="{settings.show_scalebar}">
+        new L.control.scale().addTo(osm_{currentUid});
+        </f:if>
+        <f:if condition="{settings.mouse_position}">
+        L.control.mousePosition().addTo(osm_{currentUid});
+        </f:if>
+
         <f:if condition="{settings.position}">
         osm_{currentUid}.locate(<f:format.raw>{</f:format.raw>setView: true})
             .on("locationfound",function(e){
@@ -68,9 +75,15 @@
     <f:asset.css identifier="leaflet" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/Core/leaflet.css" />
     <f:asset.script identifier="leaflet" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/Core/leaflet.js" priority="1" />
     <f:if condition="{settings.show_fullscreen}">
-    <f:then>
-        <f:asset.css identifier="leaflet-fullscreen" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.css" />
-        <f:asset.script identifier="leaflet-fullscreen" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.js" priority="1"/>
+        <f:then>
+            <f:asset.css identifier="leaflet-fullscreen" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.css" />
+            <f:asset.script identifier="leaflet-fullscreen" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.js" priority="1"/>
+        </f:then>
+    </f:if>
+    <f:if condition="{settings.mouse_position}">
+        <f:then>
+            <f:asset.css identifier="leaflet-mouseposition" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-mouseposition/L.Control.MousePosition.css" />
+            <f:asset.script identifier="leaflet-mouseposition" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-mouseposition/L.Control.MousePosition.js" priority="1"/>
         </f:then>
     </f:if>
     </script>
