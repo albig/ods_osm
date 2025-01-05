@@ -21,6 +21,7 @@ class MapController extends ActionController
     /** @var LayerRepository */
     protected $layerRepository;
 
+    /** @var array */
     protected $config = [];
 
 	/**
@@ -46,14 +47,14 @@ class MapController extends ActionController
     }
 
 
-    public function showAction(): ForwardResponse
+    public function showAction(): ResponseInterface
     {
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $currentUid = $cObjectData->data['uid'];
         switch ($this->settings['library'] ?? '') {
             case 'openlayers':
                 return (new ForwardResponse('openlayers'))
-                    ->withArguments(['currentUid' => $currentUid]);
+                    ->withArguments(['currentUid' => $currentUid, 'config' => $this->config]);
             case 'leaflet':
                 return (new ForwardResponse('leaflet'))
                     ->withArguments(['currentUid' => $currentUid, 'config' => $this->config]);
@@ -65,6 +66,7 @@ class MapController extends ActionController
     public function openlayersAction(int $currentUid): ResponseInterface
     {
         $variables = [
+            'config' => $this->config,
             'currentUid' => $currentUid,
         ];
 
