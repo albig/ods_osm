@@ -7,8 +7,8 @@
     <f:debug>{_all}</f:debug>
     <h1>Leaflet</h1>
     <f:render partial="Map/Leaflet" arguments="{_all}" />
-    <div style="width:100%; height:80vh;" id="osm_{currentUid}"></div>
-    {f:if(condition: settings.enable_scrollwheelzoom, then: 'true', else: 'false')}
+    <div style="width:{config.width}; height:{config.height};" id="osm_{currentUid}"></div>
+    {f:if(condition: config.enable_scrollwheelzoom, then: 'true', else: 'false')}
     <f:asset.script identifier="javascript-escaping-exampe">
         document.addEventListener("DOMContentLoaded", function () <f:format.raw>{</f:format.raw>
         <f:for each="{baseMaps}" as="layer">
@@ -27,9 +27,9 @@
         </f:for>
         osm_{currentUid} = new L.Map('osm_{currentUid}',
         <f:format.raw>{</f:format.raw>
-        fullscreenControl: {f:if(condition:settings.show_fullscreen,then:'true',else:'false')},
-        scrollWheelZoom: {f:if(condition:settings.enable_scrollwheelzoom,then:'true',else:'false')},
-        dragging: {f:if(condition:settings.enable_dragging,then:'true',else:'false')},
+        fullscreenControl: {f:if(condition:config.show_fullscreen,then:'true',else:'false')},
+        scrollWheelZoom: {f:if(condition:config.enable_scrollwheelzoom,then:'true',else:'false')},
+        dragging: {f:if(condition:config.enable_dragging,then:'true',else:'false')},
         layers: [layer_{baseMaps.0.uid}, <f:for each="{overlaysActive}" as="layer">layer_{layer.uid},</f:for>]
         });
 
@@ -44,19 +44,19 @@
                 "{layer.title}": layer_{layer.uid},
             </f:for>
         };
-        <f:if condition="{settings.show_layerswitcher} > 0">
-        var layerControl = L.control.layers(baseMaps, overlayMaps,<f:format.raw>{</f:format.raw>collapsed:{f:if(condition:'{settings.show_layerswitcher} == 1',then:'true',else:'false')}}).addTo(osm_{currentUid});
+        <f:if condition="{config.show_layerswitcher} > 0">
+        var layerControl = L.control.layers(baseMaps, overlayMaps,<f:format.raw>{</f:format.raw>collapsed:{f:if(condition:'{config.show_layerswitcher} == 1',then:'true',else:'false')}}).addTo(osm_{currentUid});
         </f:if>
-        var center = new L.LatLng({settings.lat}, {settings.lon});
+        var center = new L.LatLng({config.lat}, {config.lon});
 
-        <f:if condition="{settings.show_scalebar}">
+        <f:if condition="{config.show_scalebar}">
         new L.control.scale().addTo(osm_{currentUid});
         </f:if>
-        <f:if condition="{settings.mouse_position}">
+        <f:if condition="{config.mouse_position}">
         L.control.mousePosition().addTo(osm_{currentUid});
         </f:if>
 
-        <f:if condition="{settings.position}">
+        <f:if condition="{config.position}">
         osm_{currentUid}.locate(<f:format.raw>{</f:format.raw>setView: true})
             .on("locationfound",function(e){
                 var radius=e.accuracy/2;
@@ -65,7 +65,7 @@
         </f:if>
 
         osm_{currentUid}.on("locationfound",function(e){var radius=e.accuracy/2;L.circle(e.latlng,radius).addTo(osm_{currentUid})});
-        osm_{currentUid}.setView(center, {settings.zoom})
+        osm_{currentUid}.setView(center, {config.zoom})
         <f:format.raw>}</f:format.raw>, false);
 
     </f:asset.script>
@@ -74,13 +74,13 @@
 <f:section name="HeaderAssets">
     <f:asset.css identifier="leaflet" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/Core/leaflet.css" />
     <f:asset.script identifier="leaflet" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/Core/leaflet.js" priority="1" />
-    <f:if condition="{settings.show_fullscreen}">
+    <f:if condition="{arguments.config.value.show_fullscreen}">
         <f:then>
             <f:asset.css identifier="leaflet-fullscreen" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.css" />
             <f:asset.script identifier="leaflet-fullscreen" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-fullscreen/Control.FullScreen.js" priority="1"/>
         </f:then>
     </f:if>
-    <f:if condition="{settings.mouse_position}">
+    <f:if condition="{arguments.config.value.mouse_position}">
         <f:then>
             <f:asset.css identifier="leaflet-mouseposition" href="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-mouseposition/L.Control.MousePosition.css" />
             <f:asset.script identifier="leaflet-mouseposition" src="EXT:ods_osm/Resources/Public/JavaScript/Leaflet/leaflet-mouseposition/L.Control.MousePosition.js" priority="1"/>

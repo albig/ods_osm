@@ -36,20 +36,20 @@
 								<eval>int</eval>
 							</config>
 					</cluster_radius>
-					<width>
+					<settings.width>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.width</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
 							</config>
-					</width>
-					<height>
+					</settings.width>
+					<settings.height>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.height</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
 							</config>
-					</height>
+					</settings.height>
 					<settings.lon>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tx_odsosm_lon</label>
 							<config>

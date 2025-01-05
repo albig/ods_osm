@@ -9,6 +9,9 @@ use Bobosch\OdsOsm\Domain\Model\Map;
 use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 /**
  * Controller for the main "Map" FE plugin.
@@ -18,6 +21,8 @@ class MapController extends ActionController
     /** @var LayerRepository */
     protected $layerRepository;
 
+    protected $config = [];
+
 	/**
      * @param \Bobosch\OdsOsm\Domain\Repository\LayerRepository $layerRepository
      */
@@ -26,7 +31,22 @@ class MapController extends ActionController
         $this->layerRepository = $layerRepository;
     }
 
-    public function showAction(): ResponseInterface
+    /**
+     */
+    protected function initializeView(): void
+    {
+        // merge configs together into $this->config
+        // 1. get extension configuration
+        $this->config = $this->getSettings();
+        // 2. get TypoScript settings
+        ArrayUtility::mergeRecursiveWithOverrule($this->config, $this->settings['typoscript']);
+        unset($this->settings['typoscript']);
+        // 3. merge with Extbase settings, but skip empty values.
+        ArrayUtility::mergeRecursiveWithOverrule($this->config, $this->settings, true, false);
+    }
+
+
+    public function showAction(): ForwardResponse
     {
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $currentUid = $cObjectData->data['uid'];
@@ -36,7 +56,7 @@ class MapController extends ActionController
                     ->withArguments(['currentUid' => $currentUid]);
             case 'leaflet':
                 return (new ForwardResponse('leaflet'))
-                    ->withArguments(['currentUid' => $currentUid]);
+                    ->withArguments(['currentUid' => $currentUid, 'config' => $this->config]);
             default:
                 return $this->htmlResponse();
         }
@@ -53,11 +73,11 @@ class MapController extends ActionController
         return $this->htmlResponse();
     }
 
-    public function leafletAction(): ResponseInterface
+    public function leafletAction(int $currentUid, array $config): ResponseInterface
     {
-        $cObjectData = $this->request->getAttribute('currentContentObject');
         $variables = [
-            'currentUid' => $cObjectData->data['uid'],
+            'config' => $this->config,
+            'currentUid' => $currentUid,
             'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'] ?? [])),
             'overlayMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? [])),
             'overlaysActive' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? []))
@@ -66,6 +86,15 @@ class MapController extends ActionController
         $this->view->assignMultiple($variables);
 
         return $this->htmlResponse();
+    }
+
+    protected function getSettings(): array
+    {
+        try {
+            return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('ods_osm');
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
 }

@@ -10,6 +10,15 @@ plugin.tx_odsosm {
   settings {
     # cat=plugin.tx_odsosm//a; type=int; label=UID of the page with the single view
     singleViewPageUid =
+
+    # cat=OpenStreetMap//1000; type=string; label=Width: Width of the map.
+    width = 80vw
+
+    # cat=OpenStreetMap//1010; type=string; label=Height: Height of the map.
+    height = 80vh
+
+    # cat=OpenStreetMap//1020; type=options[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]; label=Zoom: Zoom level.
+    zoom = 15
   }
 
 }

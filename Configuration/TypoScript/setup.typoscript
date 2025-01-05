@@ -19,5 +19,11 @@ plugin.tx_odsosm {
 
   settings {
     singleViewPageUid = {$plugin.tx_odsosm.settings.singleViewPageUid}
+
+    typoscript {
+      width = {$plugin.tx_odsosm.settings.width}
+      height = {$plugin.tx_odsosm.settings.height}
+      zoom = {$plugin.tx_odsosm.settings.zoom}
+    }
   }
 }
