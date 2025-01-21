@@ -9,9 +9,9 @@ use Bobosch\OdsOsm\Domain\Model\Map;
 use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 /**
  * Controller for the main "Map" FE plugin.

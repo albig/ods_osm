@@ -8,7 +8,7 @@
 					<sheetTitle>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.sheet_sDEF</sheetTitle>
 				<type>array</type>
 				<el>
-					<marker>
+					<settings.marker>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.marker</label>
 							<description>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.marker.description</description>
 							<config>
@@ -20,7 +20,7 @@
 								<maxitems>9999</maxitems>
 								<autoSizeMax>20</autoSizeMax>
 							</config>
-					</marker>
+					</settings.marker>
 					<cluster>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.cluster</label>
 							<config>
