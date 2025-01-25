@@ -389,27 +389,31 @@ class TceMain
 
                                 if ($ll) {
                                     // Optimize address
-                                    $address['lon'] = sprintf($tc['FORMAT'], $ll['longitude']);
-                                    $address['lat'] = sprintf($tc['FORMAT'], $ll['latitude']);
+                                    $address['lon'] = sprintf($tc['FORMAT'], $ll['lon']);
+                                    $address['lat'] = sprintf($tc['FORMAT'], $ll['lat']);
                                     if (($address['type'] ?? false) == 'structured') {
                                         if (isset($tc['address']) && !isset($tc['street'])) {
-                                            if ($address['street'] ?? false) {
-                                                $address['address'] = $address['street'];
-                                                if ($address['housenumber'] ?? false) {
-                                                    $address['address'] .= ' ' . $address['housenumber'];
+                                            if ($ll['address']['street'] ?? false) {
+                                                $address['address'] = $ll['address']['street'];
+                                                if ($ll['address']['housenumber'] ?? false) {
+                                                    $address['address'] .= ' ' . $ll['address']['housenumber'];
                                                 }
                                             }
                                         }
                                     } elseif ($tc['address'] ?? false) {
-                                        if ($address['street'] ?? false) {
-                                            $address['address'] = $address['street'];
-                                            if ($address['housenumber'] ?? false) {
-                                                $address['address'] .= ' ' . $address['housenumber'];
+                                        if ($ll['address']['street'] ?? false) {
+                                            $address['address'] = $ll['address']['street'];
+                                            if ($ll['address']['housenumber'] ?? false) {
+                                                $address['address'] .= ' ' . $ll['address']['housenumber'];
                                             }
-                                            $address['address'] .= ', ' . $address['zip'] . ' ' . $address['city'];
-                                            $address['address'] .= ', ' . $address['country'];
+                                            $address['address'] .= ', ' . $ll['address']['zip'] . ' ' . $ll['address']['city'];
+                                            $address['address'] .= ', ' . $ll['address']['country'];
                                         }
                                     }
+
+                                    $address['city'] = $ll['address']['city'];
+                                    $address['state'] = $ll['address']['state'];
+                                    $address['country'] = $ll['address']['country'];
 
                                     // Update fieldArray if address is set
                                     foreach ($tc as $def => $field) {

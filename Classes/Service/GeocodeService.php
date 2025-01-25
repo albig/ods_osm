@@ -89,14 +89,10 @@ class GeocodeService implements SingletonInterface
         if (empty($result)) {
             return [];
         }
-        $resultCache = [
-            'latitude' => $result['lat'],
-            'longitude' => $result['lon'],
-        ];
         // Now store the $result in cache and return
-        $cacheObject->set($cacheKey, $resultCache, [], $this->cacheTime);
+        $cacheObject->set($cacheKey, $result, [], $this->cacheTime);
 
-        return $resultCache;
+        return $result;
     }
 
     protected function getApiCallResult(string $url): array
