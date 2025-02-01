@@ -15,11 +15,15 @@ use FriendsOfTYPO3\TtAddress\Domain\Repository\AddressRepository;
 use Bobosch\OdsOsm\Domain\Model\FrontendUser;
 use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
 
+use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
+use Bobosch\OdsOsm\Domain\Repository\FrontendGroupRepository;
+
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Authentication\GroupResolver;
 
 /**
  * Controller for the main "Map" FE plugin.
@@ -34,6 +38,9 @@ class MapController extends ActionController
 
     /** @var FrontendUserRepository */
     protected $frontendUserRepository;
+
+    /** @var FrontendGroupRepository */
+    protected $frontendGroupRepository;
 
     /** @var array */
     protected $config = [];
@@ -63,6 +70,14 @@ class MapController extends ActionController
     }
 
     /**
+     * @param FrontendGroupRepository $frontendGroupRepository
+     */
+    public function injectFrontendGroupRepository(FrontendGroupRepository $frontendGroupRepository): void
+    {
+        $this->frontendGroupRepository = $frontendGroupRepository;
+    }
+
+    /**
      */
     protected function initializeView(): void
     {
@@ -81,12 +96,15 @@ class MapController extends ActionController
     {
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $currentUid = $cObjectData->data['uid'];
+        $markerToShow = [];
         foreach (GeneralUtility::trimExplode(',', $this->settings['marker']) as $tempGroup) {
             $item = GeneralUtility::revExplode('_', $tempGroup, 2);
             switch($item[0]) {
                 case 'tt_address': $markerToShow['tt_address'][] = $this->addressRepository->findByUid($item[1]);
                     break;
                 case 'fe_users': $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid($item[1]);
+                case 'fe_groups':
+                    $markerToShow['fe_groups'] = GeneralUtility::makeInstance(GroupResolver::class)->findAllUsersInGroups(GeneralUtility::intExplode(',', $item[1] ?: ''), 'fe_groups', 'fe_users');
                 break;
             }
 

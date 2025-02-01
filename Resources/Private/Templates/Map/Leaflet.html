@@ -74,7 +74,7 @@
         </f:for>
 
         <f:for each="{marker.fe_groups}" as="marker">
-            var fe_groups_{marker.uid} = new L.Marker([{marker.latitude}, {marker.longitude}]).addTo(osm_{currentUid});
+            var fe_groups_{marker.uid} = new L.Marker([{marker.tx_odsosm_lat}, {marker.tx_odsosm_lon}]).addTo(osm_{currentUid});
             fe_groups_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}<\/h3><br \/><f:format.trim>{marker.address}</f:format.trim>, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
         </f:for>
 
