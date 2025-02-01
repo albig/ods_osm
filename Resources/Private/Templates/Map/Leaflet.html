@@ -66,7 +66,21 @@
 
         osm_{currentUid}.on("locationfound",function(e){var radius=e.accuracy/2;L.circle(e.latlng,radius).addTo(osm_{currentUid})});
         osm_{currentUid}.setView(center, {config.zoom})
+
+
+        <f:for each="{marker.tt_address}" as="marker">
+            var tt_address_{marker.uid} = new L.Marker([{marker.latitude}, {marker.longitude}]).addTo(osm_{currentUid});
+            tt_address_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}<\/h3><br \/><f:format.trim>{marker.address}</f:format.trim>, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
+        </f:for>
+
+        <f:for each="{marker.fe_groups}" as="marker">
+            var fe_groups_{marker.uid} = new L.Marker([{marker.latitude}, {marker.longitude}]).addTo(osm_{currentUid});
+            fe_groups_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}<\/h3><br \/><f:format.trim>{marker.address}</f:format.trim>, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
+        </f:for>
+
         <f:format.raw>}</f:format.raw>, false);
+
+
 
     </f:asset.script>
 </f:section>

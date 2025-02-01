@@ -5,8 +5,16 @@ declare(strict_types=1);
 namespace Bobosch\OdsOsm\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+
 use Bobosch\OdsOsm\Domain\Model\Map;
 use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
+
+use FriendsOfTYPO3\TtAddress\Domain\Model\Address;
+use FriendsOfTYPO3\TtAddress\Domain\Repository\AddressRepository;
+
+use Bobosch\OdsOsm\Domain\Model\FrontendUser;
+use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
+
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -21,15 +29,37 @@ class MapController extends ActionController
     /** @var LayerRepository */
     protected $layerRepository;
 
+    /** @var AddressRepository */
+    protected $addressRepository;
+
+    /** @var FrontendUserRepository */
+    protected $frontendUserRepository;
+
     /** @var array */
     protected $config = [];
 
 	/**
-     * @param \Bobosch\OdsOsm\Domain\Repository\LayerRepository $layerRepository
+     * @param LayerRepository $layerRepository
      */
     public function injectLayerRepository(LayerRepository $layerRepository): void
     {
         $this->layerRepository = $layerRepository;
+    }
+
+    /**
+     * @param AddressRepository $addressRepository
+     */
+    public function injectAddressRepository(AddressRepository $addressRepository): void
+    {
+        $this->addressRepository = $addressRepository;
+    }
+
+	/**
+     * @param FrontendUserRepository $frontendUserRepository
+     */
+    public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository): void
+    {
+        $this->frontendUserRepository = $frontendUserRepository;
     }
 
     /**
@@ -51,13 +81,24 @@ class MapController extends ActionController
     {
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $currentUid = $cObjectData->data['uid'];
+        foreach (GeneralUtility::trimExplode(',', $this->settings['marker']) as $tempGroup) {
+            $item = GeneralUtility::revExplode('_', $tempGroup, 2);
+            switch($item[0]) {
+                case 'tt_address': $markerToShow['tt_address'][] = $this->addressRepository->findByUid($item[1]);
+                    break;
+                case 'fe_users': $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid($item[1]);
+                break;
+            }
+
+        }
+
         switch ($this->settings['library'] ?? '') {
             case 'openlayers':
                 return (new ForwardResponse('openlayers'))
                     ->withArguments(['currentUid' => $currentUid, 'config' => $this->config]);
             case 'leaflet':
                 return (new ForwardResponse('leaflet'))
-                    ->withArguments(['currentUid' => $currentUid, 'config' => $this->config]);
+                    ->withArguments(['currentUid' => $currentUid, 'config' => $this->config, 'marker' => $markerToShow]);
             default:
                 return $this->htmlResponse();
         }
@@ -75,11 +116,12 @@ class MapController extends ActionController
         return $this->htmlResponse();
     }
 
-    public function leafletAction(int $currentUid, array $config): ResponseInterface
+    public function leafletAction(int $currentUid, array $config, array $marker): ResponseInterface
     {
         $variables = [
             'config' => $this->config,
             'currentUid' => $currentUid,
+            'marker' => $marker,
             'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'] ?? [])),
             'overlayMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? [])),
             'overlaysActive' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? []))
