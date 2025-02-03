@@ -31,6 +31,21 @@ class FrontendUser extends AbstractEntity
     /** @var string */
     protected $lastName = '';
 
+    /** @var string */
+    protected $address = '';
+
+    /** @var string */
+    protected $zip = '';
+
+    /** @var string */
+    protected $city = '';
+
+    /** @var float */
+    protected $txOdsosmLon = '';
+
+    /** @var float */
+    protected $txOdsosmLat = '';
+
     public function getLastName(): string
     {
         return $this->lastName;
@@ -40,4 +55,31 @@ class FrontendUser extends AbstractEntity
     {
         return $this->firstName;
     }
+
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    public function getZip(): string
+    {
+        return $this->zip;
+    }
+
+    public function getCity(): string
+    {
+        return $this->city;
+    }
+
+    public function getTxOdsosmLon(): float
+    {
+        return $this->txOdsosmLon;
+    }
+
+    public function getTxOdsosmLat(): float
+    {
+        return $this->txOdsosmLat;
+    }
+
+
 }

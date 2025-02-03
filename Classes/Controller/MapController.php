@@ -100,12 +100,15 @@ class MapController extends ActionController
         foreach (GeneralUtility::trimExplode(',', $this->settings['marker']) as $tempGroup) {
             $item = GeneralUtility::revExplode('_', $tempGroup, 2);
             switch($item[0]) {
-                case 'tt_address': $markerToShow['tt_address'][] = $this->addressRepository->findByUid($item[1]);
+                case 'tt_address':
+                    $markerToShow['tt_address'][] = $this->addressRepository->findByUid($item[1]);
                     break;
-                case 'fe_users': $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid($item[1]);
+                case 'fe_users':
+                    $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid($item[1]);
+                    break;
                 case 'fe_groups':
                     $markerToShow['fe_groups'] = GeneralUtility::makeInstance(GroupResolver::class)->findAllUsersInGroups(GeneralUtility::intExplode(',', $item[1] ?: ''), 'fe_groups', 'fe_users');
-                break;
+                    break;
             }
 
         }
