@@ -35,7 +35,7 @@ class GeocodeService implements SingletonInterface
     protected $geoCodeUrlBase = 'https://nominatim.openstreetmap.org/search?q=';
 
     /** @var string */
-    protected $geoCodeUrlQuery = '&format=jsonv2&addressdetails=1&limit=1&polygon_svg=1';
+    protected $geoCodeUrlQuery = '&format=geocodejson&addressdetails=1&limit=1&polygon_svg=1';
 
     /**
      * geocodes all missing records in a DB table and then stores the values
@@ -54,6 +54,10 @@ class GeocodeService implements SingletonInterface
 
         // do the geocoding
         $coords = $this->getCoordinatesForAddress($address);
+
+        $coords['lon'] = $coords['geometry']['coordinates'][0];
+        $coords['lat'] = $coords['geometry']['coordinates'][1];
+        $coords['address'] = $coords['properties']['geocoding'];
 
         return $coords;
     }
@@ -103,7 +107,7 @@ class GeocodeService implements SingletonInterface
         if ($response) {
             $result = json_decode($response, true);
             if (is_array($result)) {
-                return $result[0];
+                return $result['features'][0];
             }
         }
 

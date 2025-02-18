@@ -41,10 +41,10 @@ class FrontendUser extends AbstractEntity
     protected $city = '';
 
     /** @var float */
-    protected $txOdsosmLon = '';
+    protected $txOdsosmLon;
 
     /** @var float */
-    protected $txOdsosmLat = '';
+    protected $txOdsosmLat;
 
     public function getLastName(): string
     {

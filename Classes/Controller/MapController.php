@@ -101,16 +101,43 @@ class MapController extends ActionController
             $item = GeneralUtility::revExplode('_', $tempGroup, 2);
             switch($item[0]) {
                 case 'tt_address':
-                    $markerToShow['tt_address'][] = $this->addressRepository->findByUid($item[1]);
+                    $markerToShow['tt_address'][] = $this->addressRepository->findByUid((int) $item[1]);
                     break;
                 case 'fe_users':
-                    $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid($item[1]);
+                    $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid((int) $item[1]);
                     break;
                 case 'fe_groups':
                     $markerToShow['fe_groups'] = GeneralUtility::makeInstance(GroupResolver::class)->findAllUsersInGroups(GeneralUtility::intExplode(',', $item[1] ?: ''), 'fe_groups', 'fe_users');
                     break;
             }
+        }
 
+        /* Get the map center */
+        if ($this->config['use_coords_only_nomarker'] ?? false) {
+            $lons = [];
+            $lats = [];
+            foreach ($markerToShow as $table => $markers) {
+                switch ($table) {
+                    case 'tt_address':
+                        foreach ($markers as $marker) {
+                            $lons[] = $marker->getLongitude();
+                            $lats[] = $marker->getLatitude();
+                        }
+                        break;
+                    case 'fe_users':
+                        foreach ($markers as $marker) {
+                            $lons[] = $marker->getTxOdsosmLon();
+                            $lats[] = $marker->getTxOdsosmLat();
+                        }
+                        break;
+                }
+            }
+
+            $this->config['lon'] = array_sum($lons) / count($lons);
+            $this->config['lat'] = array_sum($lats) / count($lats);
+        } else {
+            $this->config['lon'] = (float)($this->config['lon'] ?? $this->config['default_lon']);
+            $this->config['lat'] = (float)($this->config['lat'] ?? $this->config['default_lat']);
         }
 
         switch ($this->settings['library'] ?? '') {
@@ -140,7 +167,7 @@ class MapController extends ActionController
     public function leafletAction(int $currentUid, array $config, array $marker): ResponseInterface
     {
         $variables = [
-            'config' => $this->config,
+            'config' => $config,
             'currentUid' => $currentUid,
             'marker' => $marker,
             'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'] ?? [])),

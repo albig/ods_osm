@@ -71,12 +71,12 @@
 								<eval>Bobosch\OdsOsm\Evaluation\LonLat</eval>
 							</config>
 					</settings.lat>
-					<use_coords_only_nomarker>
+					<settings.use_coords_only_nomarker>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.use_coords_only_nomarker</label>
 							<config>
 								<type>check</type>
 							</config>
-					</use_coords_only_nomarker>
+					</settings.use_coords_only_nomarker>
 					<settings.zoom>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.zoom</label>
 							<config>

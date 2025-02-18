@@ -29,7 +29,7 @@ class FrontendGroup extends AbstractEntity
     protected $title = '';
 
     /** @var int */
-    protected $txOdsosmMarker = '';
+    protected $txOdsosmMarker;
 
     public function getTitle(): string
     {
