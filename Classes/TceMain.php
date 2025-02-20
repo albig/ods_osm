@@ -3,6 +3,7 @@
 namespace Bobosch\OdsOsm;
 
 use Bobosch\OdsOsm\Service\GeocodeService;
+use Bobosch\OdsOsm\Traits\SettingsTrait;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use \geoPHP\geoPHP;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -14,6 +15,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TceMain
 {
+    use SettingsTrait;
+
     public array $lon = [];
     public array $lat = [];
 
@@ -320,6 +323,7 @@ class TceMain
                         'zip' => 'zip',
                         'city' => 'city',
                         'country' => 'country',
+                        'type' => 'structured'
                     ],
                     'tt_content' => [
                         'FORMAT' => '%01.6f',
@@ -383,30 +387,24 @@ class TceMain
                             }
                             // with autocomplete == 2, the address will allways georeferenced
                             if ($config['autocomplete'] == 2 || (float) ($address['lon'] ?? 0) == 0) {
-                                $ll = $this->getGeocodeService()->calculateCoordinatesForAddress($address);
+                                $ll = $this->getGeocodeService()->calculateCoordinatesForAddress($address, $tc);
 
                                 if ($ll) {
                                     // Optimize address
                                     $address['lon'] = sprintf($tc['FORMAT'], $ll['lon']);
                                     $address['lat'] = sprintf($tc['FORMAT'], $ll['lat']);
-                                    if (($address['type'] ?? false) == 'structured') {
-                                        if (isset($tc['address']) && !isset($tc['street'])) {
-                                            if ($ll['address']['street'] ?? false) {
-                                                $address['address'] = $ll['address']['street'];
-                                                if ($ll['address']['housenumber'] ?? false) {
-                                                    $address['address'] .= ' ' . $ll['address']['housenumber'];
-                                                }
-                                            }
+                                    if ($ll['address']['street'] ?? false) {
+                                        $address['address'] = $ll['address']['street'];
+                                        if ($ll['address']['housenumber'] ?? false) {
+                                            $address['address'] .= ' ' . $ll['address']['housenumber'];
                                         }
-                                    } elseif ($tc['address'] ?? false) {
-                                        if ($ll['address']['street'] ?? false) {
-                                            $address['address'] = $ll['address']['street'];
-                                            if ($ll['address']['housenumber'] ?? false) {
-                                                $address['address'] .= ' ' . $ll['address']['housenumber'];
-                                            }
-                                            $address['address'] .= ', ' . $ll['address']['postcode'] . ' ' . $ll['address']['city'];
-                                            $address['address'] .= ', ' . $ll['address']['country'];
+                                    }
+                                    if (($tc['type'] ?? false) != 'structured') {
+                                        if ($ll['address']['housenumber'] ?? false) {
+                                            $address['address'] .= ' ' . $ll['address']['housenumber'];
                                         }
+                                        $address['address'] .= ', ' . $ll['address']['postcode'] . ' ' . $ll['address']['city'];
+                                        $address['address'] .= ', ' . $ll['address']['country'];
                                     }
 
                                     $address['city'] = $ll['address']['city'] ?? '';
@@ -430,15 +428,6 @@ class TceMain
                     }
                 }
                 break;
-        }
-    }
-
-    protected function getSettings(): array
-    {
-        try {
-            return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('ods_osm');
-        } catch (\Exception $e) {
-            return [];
         }
     }
 

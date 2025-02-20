@@ -8,15 +8,14 @@ use Psr\Http\Message\ResponseInterface;
 
 use Bobosch\OdsOsm\Domain\Model\Map;
 use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
+use Bobosch\OdsOsm\Domain\Model\FrontendUser;
+use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
+use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
+use Bobosch\OdsOsm\Domain\Repository\FrontendGroupRepository;
+use Bobosch\OdsOsm\Traits\SettingsTrait;
 
 use FriendsOfTYPO3\TtAddress\Domain\Model\Address;
 use FriendsOfTYPO3\TtAddress\Domain\Repository\AddressRepository;
-
-use Bobosch\OdsOsm\Domain\Model\FrontendUser;
-use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
-
-use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
-use Bobosch\OdsOsm\Domain\Repository\FrontendGroupRepository;
 
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -30,6 +29,8 @@ use TYPO3\CMS\Core\Authentication\GroupResolver;
  */
 class MapController extends ActionController
 {
+    use SettingsTrait;
+
     /** @var LayerRepository */
     protected $layerRepository;
 
@@ -178,15 +179,6 @@ class MapController extends ActionController
         $this->view->assignMultiple($variables);
 
         return $this->htmlResponse();
-    }
-
-    protected function getSettings(): array
-    {
-        try {
-            return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('ods_osm');
-        } catch (\Exception $e) {
-            return [];
-        }
     }
 
 }

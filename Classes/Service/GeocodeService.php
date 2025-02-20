@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace Bobosch\OdsOsm\Service;
 
-use TYPO3\CMS\Core\Cache\CacheManager;
-
 /*
  * This file is part of the "tt_address" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+use Bobosch\OdsOsm\Traits\SettingsTrait;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Service for category related stuff
@@ -28,14 +30,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GeocodeService implements SingletonInterface
 {
+    use SettingsTrait;
+
     /** @var int */
     protected $cacheTime = 7776000;
 
-    /** @var string */
-    protected $geoCodeUrlBase = 'https://nominatim.openstreetmap.org/search?q=';
-
-    /** @var string */
-    protected $geoCodeUrlQuery = '&format=geocodejson&addressdetails=1&limit=1&polygon_svg=1';
+    /** @var array */
+    protected $config = [];
 
     /**
      * geocodes all missing records in a DB table and then stores the values
@@ -45,15 +46,15 @@ class GeocodeService implements SingletonInterface
      * helpful when calculating a batch of addresses and save the latitude/longitude automatically
      *
      * @param array $row
+     * @param array $tc
+     * @return array an array with latitude and longitude
      */
-    public function calculateCoordinatesForAddress($row): array
+    public function calculateCoordinatesForAddress($row, $tc): array
     {
-        // remove all after first slash in address (top, floor ...)
-        $address = preg_replace('/^([^\/]*).*$/', '$1', $row['address'] ?? '') . ' ';
-        $address .= $row['city'] ?? '';
+        $this->config = $this->getSettings();
 
         // do the geocoding
-        $coords = $this->getCoordinatesForAddress($address);
+        $coords = $this->getCoordinatesForAddress($row, $tc);
 
         $coords['lon'] = $coords['geometry']['coordinates'][0];
         $coords['lat'] = $coords['geometry']['coordinates'][1];
@@ -66,29 +67,47 @@ class GeocodeService implements SingletonInterface
      * core functionality: asks nominatim for the coordinates of an address
      * stores known addresses in a local cache.
      *
-     * @param string $address
+     * @param array $address
+     * @param array $tc
      * @return array an array with latitude and longitude
      */
-    public function getCoordinatesForAddress($address = null): array
+    private function getCoordinatesForAddress($address, $tc): array
     {
         $geoCodeUrl = '';
 
+        $country = strtoupper(strlen($address['country'] ?? false) == 2 ? $address['country'] : $this->config['default_country']);
+        $email = GeneralUtility::validEmail($this->config['geo_service_email']) ? $this->config['geo_service_email'] : ($_SERVER['SERVER_ADMIN'] ?? 'unkown@example.com');
+
+        $query['country'] = $country;
+        $query['email'] = $email;
+        $query['addressdetails'] = 1;
+        $query['format'] = 'geocodejson';
+
+        // remove all after first slash in address (top, floor ...)
+        $address_combined = preg_replace('/^([^\/]*).*$/', '$1', $address['address'] ?? '') . ' ';
+        $address_combined .= $address['city'] ?? '';
+
         // if we have at least some address part (saves geocoding calls)
-        if (trim($address)) {
-            // base url
-            $geoCodeUrlAddress = $address;
-            // replace newlines with spaces; remove multiple spaces
-            $geoCodeUrl = trim(preg_replace('/\s\s+/', ' ', $this->geoCodeUrlBase . urlencode($geoCodeUrlAddress) . $this->geoCodeUrlQuery));
+        if ($address['address'] && $tc['type'] == 'structured') {
+            if ($address['city'] ?? false) {
+                $query['city'] = $address['city'];
+            }
+            if ($address['zip'] ?? false) {
+                $query['postalcode'] = $address['zip'];
+            }
+            $query['street'] = $address['address'];
+        } else {
+
+            $query['q'] = $address_combined;
         }
 
-
         $cacheObject = $this->initializeCache();
-        $cacheKey = 'geocode-' . strtolower(str_replace(' ', '-', preg_replace('/[^0-9a-zA-Z ]/m', '', $address)));
+        $cacheKey = 'geocode-' . strtolower(str_replace(' ', '-', preg_replace('/[^0-9a-zA-Z ]/m', '', $address_combined)));
         // Found in cache? Return it.
         if ($cacheObject->has($cacheKey)) {
             return $cacheObject->get($cacheKey);
         }
-        $result = $this->getApiCallResult($geoCodeUrl);
+        $result = $this->getApiCallResult($query);
 
         if (empty($result)) {
             return [];
@@ -99,19 +118,90 @@ class GeocodeService implements SingletonInterface
         return $result;
     }
 
-    protected function getApiCallResult(string $url): array
+    protected function getApiCallResult(array $query): array
     {
         $result = [];
-        $response = GeneralUtility::getUrl($url);
 
-        if ($response) {
-            $result = json_decode($response, true);
-            if (is_array($result)) {
-                return $result['features'][0];
-            }
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 60,
+            'headers' => [
+                'Accept' => 'application/json',
+                'User-Agent' => 'TYPO3 extension ods_osm/' . ExtensionManagementUtility::getExtensionVersion('ods_osm')
+            ],
+        ];
+
+        $response = $requestFactory->request('https://nominatim.openstreetmap.org/search?' . http_build_query($query, '', '&'), 'GET', $configuration);
+        $content  = $response->getBody()->getContents();
+        $result = json_decode($content, true);
+
+        if (is_array($result)) {
+            return $result['features'][0];
         }
 
         return [];
+    }
+
+    /**
+     * Search for the given address in Nominatim service.
+     *
+     * Data lat, lon, zip and city may get updated.
+     *
+     * @param array $query The query sent to the nominatim API
+     * @param array &$address Address record from database
+     *
+     * @return boolean True if the address was found and got updated.
+     */
+    protected static function searchAddressNominatim($query, &$address)
+    {
+        $ll = false;
+
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 60,
+            'headers' => [
+                'Accept' => 'application/json',
+                'User-Agent' => 'TYPO3 extension ods_osm/' . ExtensionManagementUtility::getExtensionVersion('ods_osm')
+            ],
+        ];
+
+        $response = $requestFactory->request('https://nominatim.openstreetmap.org/search?' . http_build_query($query, '', '&'), 'GET', $configuration);
+        $content  = $response->getBody()->getContents();
+        $result = json_decode($content, true);
+
+        // Save value in cache
+        if ($result) {
+            // take the first result
+            if ($result[0] ?? false) {
+                $ll = true;
+                $address['lat'] = (string)$result[0]['lat'];
+                $address['lon'] = (string)$result[0]['lon'];
+                if ($result[0]['address']['road'] ?? false) {
+                    $address['street'] = (string)$result[0]['address']['road'];
+                }
+                if ($result[0]['address']['house_number'] ?? false) {
+                    $address['housenumber'] = substr((string)$result[0]['address']['house_number'], 0, 10);
+                }
+                if ($result[0]['address']['postcode'] ?? false) {
+                    $address['zip'] = substr((string)$result[0]['address']['postcode'], 0, 10);
+                }
+                if ($result[0]['address']['city'] ?? false) {
+                    $address['city'] = $result[0]['address']['city'];
+                } elseif ($result[0]['address']['village'] ?? false) {
+                    $address['city'] = (string)$result[0]['address']['village'];
+                }
+                if ($result[0]['address']['state'] ?? false) {
+                    $address['state'] = (string)$result[0]['address']['state'];
+                }
+                if (($result[0]['address']['country_code'] ?? false) && empty($address['country'] ?? false)) {
+                    $address['country'] = strtoupper((string)$result[0]['address']['country_code']);
+                }
+            }
+        }
+
+        return $ll;
     }
 
     /**

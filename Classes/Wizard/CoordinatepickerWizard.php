@@ -12,6 +12,7 @@ namespace Bobosch\OdsOsm\Wizard;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Bobosch\OdsOsm\Traits\SettingsTrait;
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
@@ -23,6 +24,8 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
  */
 class CoordinatepickerWizard extends AbstractNode
 {
+    use SettingsTrait;
+
     /**
      * @return array<string, mixed>
      */
@@ -99,12 +102,4 @@ class CoordinatepickerWizard extends AbstractNode
         return $GLOBALS['LANG'];
     }
 
-    protected function getSettings(): array
-    {
-        try {
-            return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('ods_osm');
-        } catch (\Exception $e) {
-            return [];
-        }
-    }
 }
