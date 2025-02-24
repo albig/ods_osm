@@ -55,9 +55,9 @@ class MapController extends ActionController
     }
 
     /**
-     * @param AddressRepository $addressRepository
+     * @param ?AddressRepository $addressRepository
      */
-    public function injectAddressRepository(AddressRepository $addressRepository): void
+    public function injectAddressRepository(?AddressRepository $addressRepository): void
     {
         $this->addressRepository = $addressRepository;
     }

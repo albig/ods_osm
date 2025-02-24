@@ -27,7 +27,7 @@
       "saschaegerer/phpstan-typo3": "^1.8.3",
       "phpstan/extension-installer": "^1.1",
       "jangregor/phpstan-prophecy": "^1.0",
-	  "friendsoftypo3/tt-address": "^8.0"
+	  "friendsoftypo3/tt-address": "^9.0"
     },
     "config": {
       "lock": false,
