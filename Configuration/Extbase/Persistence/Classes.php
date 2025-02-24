@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
+use Bobosch\OdsOsm\Domain\Model\FrontendUser;
 use Bobosch\OdsOsm\Domain\Model\Layer;
 use Bobosch\OdsOsm\Domain\Model\Marker;
-use Bobosch\OdsOsm\Domain\Model\FrontendUser;
-use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
 
 return [
     Layer::class => [

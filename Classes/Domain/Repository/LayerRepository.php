@@ -8,22 +8,20 @@ use Bobosch\OdsOsm\Domain\Model\Layer;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * @extends Repository<Layer>
  */
 class LayerRepository extends Repository
 {
-   /**
-    * Find all objects by uid in order of given uids.
-    *
-    * @param array $uids
-    * @return array<Layer>
-    */
+    /**
+     * Find all objects by uid in order of given uids.
+     *
+     * @param array $uids
+     * @return array<Layer>
+     */
     public function findAllByUids(array $uids)
     {
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);

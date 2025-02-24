@@ -14,14 +14,10 @@ use Bobosch\OdsOsm\Traits\SettingsTrait;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryHelper;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Service for category related stuff
@@ -128,7 +124,7 @@ class GeocodeService implements SingletonInterface
             'timeout' => 60,
             'headers' => [
                 'Accept' => 'application/json',
-                'User-Agent' => 'TYPO3 extension ods_osm/' . ExtensionManagementUtility::getExtensionVersion('ods_osm')
+                'User-Agent' => 'TYPO3 extension ods_osm/' . ExtensionManagementUtility::getExtensionVersion('ods_osm'),
             ],
         ];
 
@@ -151,7 +147,7 @@ class GeocodeService implements SingletonInterface
      * @param array $query The query sent to the nominatim API
      * @param array &$address Address record from database
      *
-     * @return boolean True if the address was found and got updated.
+     * @return bool True if the address was found and got updated.
      */
     protected static function searchAddressNominatim($query, &$address)
     {
@@ -163,7 +159,7 @@ class GeocodeService implements SingletonInterface
             'timeout' => 60,
             'headers' => [
                 'Accept' => 'application/json',
-                'User-Agent' => 'TYPO3 extension ods_osm/' . ExtensionManagementUtility::getExtensionVersion('ods_osm')
+                'User-Agent' => 'TYPO3 extension ods_osm/' . ExtensionManagementUtility::getExtensionVersion('ods_osm'),
             ],
         ];
 

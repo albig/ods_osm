@@ -14,9 +14,7 @@ namespace Bobosch\OdsOsm\Wizard;
 use Bobosch\OdsOsm\Traits\SettingsTrait;
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 /**
  * Adds a wizard for drawing vectors on a map

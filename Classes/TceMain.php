@@ -4,11 +4,10 @@ namespace Bobosch\OdsOsm;
 
 use Bobosch\OdsOsm\Service\GeocodeService;
 use Bobosch\OdsOsm\Traits\SettingsTrait;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
-use \geoPHP\geoPHP;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use geoPHP\geoPHP;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -37,7 +36,7 @@ class TceMain
         DataHandler $parentObject
     ): void {
         // guard statement, abort here if no ods_osm table
-        if (strpos($table, 'tx_odsosm_') !== 0) {
+        if (!str_starts_with($table, 'tx_odsosm_')) {
             return;
         }
         /*
@@ -89,7 +88,7 @@ class TceMain
                 $filename = Environment::getPublicPath() . '/' . $file->getPublicUrl();
                 if (file_exists($filename)) {
                     try {
-                        $polygon = geoPHP::load((string) file_get_contents($filename), pathinfo($filename, PATHINFO_EXTENSION));
+                        $polygon = geoPHP::load((string)file_get_contents($filename), pathinfo($filename, PATHINFO_EXTENSION));
                     } catch (\Exception $e) {
                         // silently ignore failure of parsing data
                         break;
@@ -160,7 +159,7 @@ class TceMain
                 if (file_exists($filename)) {
 
                     try {
-                        $polygon = geoPHP::load((string) file_get_contents($filename), pathinfo($filename, PATHINFO_EXTENSION));
+                        $polygon = geoPHP::load((string)file_get_contents($filename), pathinfo($filename, PATHINFO_EXTENSION));
                     } catch (\Exception $e) {
                         // silently ignore failure of parsing geojson
                         break;
@@ -323,7 +322,7 @@ class TceMain
                         'zip' => 'zip',
                         'city' => 'city',
                         'country' => 'country',
-                        'type' => 'structured'
+                        'type' => 'structured',
                     ],
                     'tt_content' => [
                         'FORMAT' => '%01.6f',
@@ -337,10 +336,10 @@ class TceMain
                             'tt_address' => [
                                 'local' => 'sys_category',
                                 'mm' => 'sys_category_record_mm',
-                                'foreign' => 'tt_address'
-                            ]
-                        ]
-                    ]
+                                'foreign' => 'tt_address',
+                            ],
+                        ],
+                    ],
                 ];
 
                 // load configuration for calendarize only if extension is loaded
@@ -363,7 +362,7 @@ class TceMain
                         'city' => 'city',
                         'state' => 'region',
                         'country' => 'country',
-                        'type' => 'structured'
+                        'type' => 'structured',
                     ];
                 }
 
@@ -386,7 +385,7 @@ class TceMain
                                 }
                             }
                             // with autocomplete == 2, the address will allways georeferenced
-                            if ($config['autocomplete'] == 2 || (float) ($address['lon'] ?? 0) == 0) {
+                            if ($config['autocomplete'] == 2 || (float)($address['lon'] ?? 0) == 0) {
                                 $ll = $this->getGeocodeService()->calculateCoordinatesForAddress($address, $tc);
 
                                 if ($ll) {

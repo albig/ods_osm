@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -80,6 +81,5 @@ class FrontendUser extends AbstractEntity
     {
         return $this->txOdsosmLat;
     }
-
 
 }

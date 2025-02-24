@@ -1,7 +1,7 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use Bobosch\OdsOsm\Evaluation\LonLat;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 defined('TYPO3') || die();
 
@@ -19,11 +19,11 @@ call_user_func(
                     'eval' => LonLat::class,
                     'fieldControl' => [
                         'locationMap' => [
-                            'renderType' => 'coordinatepickerWizard'
-                        ]
+                            'renderType' => 'coordinatepickerWizard',
+                        ],
                     ],
                     'default' => 0.000000,
-                ]
+                ],
             ],
             'tx_odsosm_lat' => [ // DECIMAL(8,6)
                 'exclude' => 1,
@@ -34,7 +34,7 @@ call_user_func(
                     'max' => 10,
                     'eval' => LonLat::class,
                     'default' => 0.000000,
-                ]
+                ],
             ],
         ];
 

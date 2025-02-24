@@ -4,25 +4,21 @@ declare(strict_types=1);
 
 namespace Bobosch\OdsOsm\Controller;
 
-use Psr\Http\Message\ResponseInterface;
-
 use Bobosch\OdsOsm\Domain\Model\Map;
-use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
-use Bobosch\OdsOsm\Domain\Model\FrontendUser;
-use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
-use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
-use Bobosch\OdsOsm\Domain\Repository\FrontendGroupRepository;
-use Bobosch\OdsOsm\Traits\SettingsTrait;
 
-use FriendsOfTYPO3\TtAddress\Domain\Model\Address;
+use Bobosch\OdsOsm\Domain\Repository\FrontendGroupRepository;
+use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
+use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
+use Bobosch\OdsOsm\Traits\SettingsTrait;
 use FriendsOfTYPO3\TtAddress\Domain\Repository\AddressRepository;
 
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use Psr\Http\Message\ResponseInterface;
+
+use TYPO3\CMS\Core\Authentication\GroupResolver;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Authentication\GroupResolver;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller for the main "Map" FE plugin.
@@ -46,7 +42,7 @@ class MapController extends ActionController
     /** @var array */
     protected $config = [];
 
-	/**
+    /**
      * @param LayerRepository $layerRepository
      */
     public function injectLayerRepository(LayerRepository $layerRepository): void
@@ -62,7 +58,7 @@ class MapController extends ActionController
         $this->addressRepository = $addressRepository;
     }
 
-	/**
+    /**
      * @param FrontendUserRepository $frontendUserRepository
      */
     public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository): void
@@ -78,8 +74,6 @@ class MapController extends ActionController
         $this->frontendGroupRepository = $frontendGroupRepository;
     }
 
-    /**
-     */
     protected function initializeView(): void
     {
         // merge configs together into $this->config
@@ -92,7 +86,6 @@ class MapController extends ActionController
         ArrayUtility::mergeRecursiveWithOverrule($this->config, $this->settings, true, false);
     }
 
-
     public function showAction(): ResponseInterface
     {
         $cObjectData = $this->request->getAttribute('currentContentObject');
@@ -100,12 +93,12 @@ class MapController extends ActionController
         $markerToShow = [];
         foreach (GeneralUtility::trimExplode(',', $this->settings['marker']) as $tempGroup) {
             $item = GeneralUtility::revExplode('_', $tempGroup, 2);
-            switch($item[0]) {
+            switch ($item[0]) {
                 case 'tt_address':
-                    $markerToShow['tt_address'][] = $this->addressRepository->findByUid((int) $item[1]);
+                    $markerToShow['tt_address'][] = $this->addressRepository->findByUid((int)$item[1]);
                     break;
                 case 'fe_users':
-                    $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid((int) $item[1]);
+                    $markerToShow['fe_users'][] = $this->frontendUserRepository->findByUid((int)$item[1]);
                     break;
                 case 'fe_groups':
                     $markerToShow['fe_groups'] = GeneralUtility::makeInstance(GroupResolver::class)->findAllUsersInGroups(GeneralUtility::intExplode(',', $item[1] ?: ''), 'fe_groups', 'fe_users');
@@ -173,7 +166,7 @@ class MapController extends ActionController
             'marker' => $marker,
             'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'] ?? [])),
             'overlayMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? [])),
-            'overlaysActive' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? []))
+            'overlaysActive' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? [])),
         ];
 
         $this->view->assignMultiple($variables);

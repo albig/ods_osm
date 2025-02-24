@@ -17,7 +17,7 @@ call_user_func(
                     'minitems' => 0,
                     'maxitems' => 1,
                     'default' => 0,
-                ]
+                ],
             ],
         ];
 
@@ -25,4 +25,3 @@ call_user_func(
         ExtensionManagementUtility::addToAllTCAtypes('sys_category', 'tx_odsosm_marker');
     }
 );
-

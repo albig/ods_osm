@@ -1,7 +1,7 @@
 <?php
 
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') || die();
 
@@ -23,7 +23,6 @@ call_user_func(
             $pluginSignature,
             'FILE:EXT:ods_osm/Configuration/Flexform/flexform_basic.xml'
         );
-        
+
     }
 );
-

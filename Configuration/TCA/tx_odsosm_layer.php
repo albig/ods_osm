@@ -1,4 +1,5 @@
 <?php
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tx_odsosm_layer',
@@ -24,10 +25,10 @@ return [
                 'items' => [
                     [
                         'label' => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
-            ]
+            ],
         ],
         'title' => [
             'exclude' => 0,
@@ -35,15 +36,15 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '30',
-            ]
+            ],
         ],
         'overlay' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tx_odsosm_layer.overlay',
             'config' => [
                 'type' => 'check',
-                'default' => '0'
-            ]
+                'default' => '0',
+            ],
         ],
         'javascript_include' => [
             'exclude' => 0,
@@ -52,7 +53,7 @@ return [
                 'type' => 'input',
                 'size' => '30',
                 'checkbox' => '',
-            ]
+            ],
         ],
         'javascript_openlayers' => [
             'exclude' => 0,
@@ -60,7 +61,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '30',
-            ]
+            ],
         ],
         'static_url' => [
             'exclude' => 0,
@@ -68,7 +69,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '30',
-            ]
+            ],
         ],
         'tile_url' => [
             'exclude' => 0,
@@ -76,7 +77,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '30',
-            ]
+            ],
         ],
         'tile_https' => [
             'exclude' => 0,
@@ -84,7 +85,7 @@ return [
             'config' => [
                 'type' => 'check',
                 'default' => '0',
-            ]
+            ],
         ],
         'min_zoom' => [
             'exclude' => 0,
@@ -93,7 +94,7 @@ return [
                 'type' => 'input',
                 'size' => '2',
                 'eval' => 'num',
-            ]
+            ],
         ],
         'max_zoom' => [
             'exclude' => 0,
@@ -102,7 +103,7 @@ return [
                 'type' => 'input',
                 'size' => '2',
                 'eval' => 'num',
-            ]
+            ],
         ],
         'subdomains' => [
             'exclude' => 0,
@@ -110,7 +111,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '5',
-            ]
+            ],
         ],
         'attribution' => [
             'exclude' => 0,
@@ -118,7 +119,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '30',
-            ]
+            ],
         ],
         'homepage' => [
             'exclude' => 0,
@@ -126,13 +127,13 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '30',
-            ]
+            ],
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'hidden, title, overlay, javascript_include, javascript_openlayers, static_url, tile_url, tile_https, min_zoom, max_zoom, subdomains, attribution, homepage']
+        '0' => ['showitem' => 'hidden, title, overlay, javascript_include, javascript_openlayers, static_url, tile_url, tile_https, min_zoom, max_zoom, subdomains, attribution, homepage'],
     ],
     'palettes' => [
-        '1' => ['showitem' => '']
-    ]
+        '1' => ['showitem' => ''],
+    ],
 ];

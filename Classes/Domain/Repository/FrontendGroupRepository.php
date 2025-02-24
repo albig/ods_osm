@@ -10,6 +10,4 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * @extends Repository<FrontendGroup>
  */
-class FrontendGroupRepository extends Repository
-{
-}
+class FrontendGroupRepository extends Repository {}

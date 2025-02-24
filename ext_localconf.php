@@ -26,7 +26,7 @@ ExtensionUtility::configurePlugin(
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1616876515] = [
     'nodeName' => 'coordinatepickerWizard',
     'priority' => 30,
-    'class' => CoordinatepickerWizard::class
+    'class' => CoordinatepickerWizard::class,
 ];
 
 // Register hooks

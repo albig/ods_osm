@@ -2,8 +2,8 @@
 
 namespace Bobosch\OdsOsm\Traits;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 trait SettingsTrait
 {

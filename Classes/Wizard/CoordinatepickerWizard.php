@@ -15,9 +15,7 @@ namespace Bobosch\OdsOsm\Wizard;
 use Bobosch\OdsOsm\Traits\SettingsTrait;
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 /**
  * Adds a wizard for location selection via map
@@ -40,15 +38,15 @@ class CoordinatepickerWizard extends AbstractNode
 
         if (strpos($nameLongitude, '[pi_flexform]') > 0) {
             // it's a call inside a flexform
-            $lon = $row["pi_flexform"]["data"]["sDEF"]["lDEF"]["lon"]["vDEF"] != '' ? htmlspecialchars($row["pi_flexform"]["data"]["sDEF"]["lDEF"]["lon"]["vDEF"]) : '';
-            $lat = $row["pi_flexform"]["data"]["sDEF"]["lDEF"]["lat"]["vDEF"] != '' ? htmlspecialchars($row["pi_flexform"]["data"]["sDEF"]["lDEF"]["lat"]["vDEF"]) : '';
+            $lon = $row['pi_flexform']['data']['sDEF']['lDEF']['lon']['vDEF'] != '' ? htmlspecialchars($row['pi_flexform']['data']['sDEF']['lDEF']['lon']['vDEF']) : '';
+            $lat = $row['pi_flexform']['data']['sDEF']['lDEF']['lat']['vDEF'] != '' ? htmlspecialchars($row['pi_flexform']['data']['sDEF']['lDEF']['lat']['vDEF']) : '';
         } else {
             $lat = $row['tx_odsosm_lat'] != '' ? htmlspecialchars($row['tx_odsosm_lat']) : '';
             $lon = $row['tx_odsosm_lon'] != '' ? htmlspecialchars($row['tx_odsosm_lon']) : '';
         }
 
-        $nameLatitude = (string) str_replace('lon', 'lat', $nameLongitude);
-        $nameLatitudeActive = (string) str_replace('data', 'control[active]', $nameLatitude);
+        $nameLatitude = (string)str_replace('lon', 'lat', $nameLongitude);
+        $nameLatitudeActive = (string)str_replace('data', 'control[active]', $nameLatitude);
         $geoCodeUrl = '';
         $geoCodeUrlShort = '';
 
