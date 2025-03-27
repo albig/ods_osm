@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+   xmlns:oo="http://typo3.org/ns/Bobosch/OdsOsm/ViewHelpers"
+   data-namespace-typo3-fluid="true"
+>
 <f:layout name="Default" />
-
 
 <f:section name="main">
     <f:debug>{_all}</f:debug>
@@ -9,7 +11,7 @@
     <f:render partial="Map/Leaflet" arguments="{_all}" />
     <div style="width:{config.width}; height:{config.height};" id="osm_{currentUid}"></div>
     {f:if(condition: config.enable_scrollwheelzoom, then: 'true', else: 'false')}
-    <f:asset.script identifier="javascript-escaping-exampe">
+    <f:asset.script identifier="javascript-leaflet-map">
         document.addEventListener("DOMContentLoaded", function () <f:format.raw>{</f:format.raw>
         <f:for each="{baseMaps}" as="layer">
             var layer_{layer.uid} = L.tileLayer('https://{layer.tileUrl}', {
@@ -69,7 +71,7 @@
 
         <f:for each="{marker.tt_address}" as="marker">
             var tt_address_{marker.uid} = new L.Marker([{marker.latitude}, {marker.longitude}]).addTo(osm_{currentUid});
-            tt_address_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}</h3><br \/><f:replace value="{marker.address -> f:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
+            tt_address_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}</h3><br \/><f:replace value="{marker.address -> oo:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if><br\/><f:replace value="{marker.description -> oo:format.json()}" search='"' replace='' />");
         </f:for>
 
         <f:for each="{marker.fe_users}" as="marker">

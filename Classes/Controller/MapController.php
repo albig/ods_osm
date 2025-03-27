@@ -166,7 +166,7 @@ class MapController extends ActionController
             'marker' => $marker,
             'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'] ?? [])),
             'overlayMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? [])),
-            'overlaysActive' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? [])),
+            'overlaysActive' => array_intersect($this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? [])), $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? []))),
         ];
 
         $this->view->assignMultiple($variables);
