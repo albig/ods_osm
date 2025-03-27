@@ -71,18 +71,37 @@
 
         <f:for each="{marker.tt_address}" as="marker">
             var tt_address_{marker.uid} = new L.Marker([{marker.latitude}, {marker.longitude}]).addTo(osm_{currentUid});
+            <f:if condition="{config.show_popups} == 1">
             tt_address_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}</h3><br \/><f:replace value="{marker.address -> oo:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if><br\/><f:replace value="{marker.description -> oo:format.json()}" search='"' replace='' />");
+            </f:if>
+            <f:if condition="{config.show_popups} == 2">
+            tt_address_{marker.uid}.bindTooltip("<h3>{marker.firstName} {marker.lastName}</h3><br \/><f:replace value="{marker.address -> oo:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if><br\/><f:replace value="{marker.description -> oo:format.json()}" search='"' replace='' />");
+            </f:if>
         </f:for>
 
         <f:for each="{marker.fe_users}" as="marker">
             var fe_users_{marker.uid} = new L.Marker([{marker.txOdsosmLat}, {marker.txOdsosmLon}]).addTo(osm_{currentUid});
+            <f:if condition="{config.show_popups} == 1">
             fe_users_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}<\/h3><br \/><f:replace value="{marker.address -> f:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
+            </f:if>
+            <f:if condition="{config.show_popups} == 2">
+            fe_users_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}<\/h3><br \/><f:replace value="{marker.address -> f:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
+            </f:if>
         </f:for>
 
         <f:for each="{marker.fe_groups}" as="marker">
             var fe_groups_{marker.uid} = new L.Marker([{marker.tx_odsosm_lat}, {marker.tx_odsosm_lon}]).addTo(osm_{currentUid});
+            <f:if condition="{config.show_popups} == 1">
             fe_groups_{marker.uid}.bindPopup("<h3>{marker.first_name} {marker.last_name}<\/h3><br \/><f:replace value="{marker.address -> f:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
+            </f:if>
+            <f:if condition="{config.show_popups} == 2">
+            fe_groups_{marker.uid}.bindPopup("<h3>{marker.first_name} {marker.last_name}<\/h3><br \/><f:replace value="{marker.address -> f:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if>");
+            </f:if>
         </f:for>
+
+        <f:if condition="{config.marker_popup_initial}">
+            {config.marker_popup_initial}.openPopup();
+        </f:if>
 
         <f:format.raw>}</f:format.raw>, false);
 
