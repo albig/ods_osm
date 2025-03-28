@@ -91,6 +91,13 @@ class MapController extends ActionController
         $cObjectData = $this->request->getAttribute('currentContentObject');
         $currentUid = $cObjectData->data['uid'];
         $markerToShow = [];
+
+        if ($this->config['marker_popup_initial'] ?? false) {
+            if (!str_contains($this->settings['marker'], $this->config['marker_popup_initial'])) {
+                $this->settings['marker'] .= ',' . $this->config['marker_popup_initial'];
+            }
+        }
+
         foreach (GeneralUtility::trimExplode(',', $this->settings['marker']) as $tempGroup) {
             $item = GeneralUtility::revExplode('_', $tempGroup, 2);
             switch ($item[0]) {
