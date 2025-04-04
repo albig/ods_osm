@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Bobosch\OdsOsm\Domain\Model\Category;
 use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
 use Bobosch\OdsOsm\Domain\Model\FrontendUser;
 use Bobosch\OdsOsm\Domain\Model\Layer;
@@ -19,5 +20,8 @@ return [
     ],
     FrontendGroup::class => [
         'tableName' => 'fe_groups',
+    ],
+    Category::class => [
+        'tableName' => 'sys_category',
     ],
 ];

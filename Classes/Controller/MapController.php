@@ -6,6 +6,7 @@ namespace Bobosch\OdsOsm\Controller;
 
 use Bobosch\OdsOsm\Domain\Model\Map;
 
+use Bobosch\OdsOsm\Domain\Repository\CategoryRepository;
 use Bobosch\OdsOsm\Domain\Repository\FrontendGroupRepository;
 use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
 use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
@@ -15,6 +16,7 @@ use FriendsOfTYPO3\TtAddress\Domain\Repository\AddressRepository;
 use Psr\Http\Message\ResponseInterface;
 
 use TYPO3\CMS\Core\Authentication\GroupResolver;
+use TYPO3\CMS\Frontend\Category\Collection\CategoryCollection;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -32,6 +34,9 @@ class MapController extends ActionController
 
     /** @var AddressRepository */
     protected $addressRepository;
+
+    /** @var CategoryRepository */
+    protected $categoryRepository;
 
     /** @var FrontendUserRepository */
     protected $frontendUserRepository;
@@ -56,6 +61,14 @@ class MapController extends ActionController
     public function injectAddressRepository(?AddressRepository $addressRepository): void
     {
         $this->addressRepository = $addressRepository;
+    }
+
+    /**
+     * @param CategoryRepository $categoryRepository
+     */
+    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
+    {
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -109,6 +122,18 @@ class MapController extends ActionController
                     break;
                 case 'fe_groups':
                     $markerToShow['fe_groups'] = GeneralUtility::makeInstance(GroupResolver::class)->findAllUsersInGroups(GeneralUtility::intExplode(',', $item[1] ?: ''), 'fe_groups', 'fe_users');
+                    break;
+                case 'sys_category':
+                        $collection = CategoryCollection::load(
+                            (int)$item[1],
+                            true,
+                            'tt_address',
+                            'categories'
+                        );
+                        // Loop on the results
+                        foreach ($collection as $ttaddress) {
+                            $markerToShow['tt_address'][] = $this->addressRepository->findByUid($ttaddress['uid']);
+                        }
                     break;
             }
         }
@@ -171,9 +196,9 @@ class MapController extends ActionController
             'config' => $config,
             'currentUid' => $currentUid,
             'marker' => $marker,
-            'baseMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['base_layer'] ?? [])),
-            'overlayMaps' => $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? [])),
-            'overlaysActive' => array_intersect($this->layerRepository->findAllByUids(explode(',', $this->settings['overlays_active'] ?? [])), $this->layerRepository->findAllByUids(explode(',', $this->settings['overlays'] ?? []))),
+            'baseMaps' => $this->layerRepository->findAllByUids(GeneralUtility::intExplode(',', $this->settings['base_layer'] ?? [], true)),
+            'overlayMaps' => $this->layerRepository->findAllByUids(GeneralUtility::intExplode(',', $this->settings['overlays'] ?? [], true)),
+            'overlaysActive' => array_intersect($this->layerRepository->findAllByUids(GeneralUtility::intExplode(',', $this->settings['overlays_active'] ?? [], true)), $this->layerRepository->findAllByUids(GeneralUtility::intExplode(',', $this->settings['overlays'] ?? [], true))),
         ];
 
         $this->view->assignMultiple($variables);

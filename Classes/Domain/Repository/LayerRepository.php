@@ -24,6 +24,10 @@ class LayerRepository extends Repository
      */
     public function findAllByUids(array $uids)
     {
+        if (empty($uids)) {
+            return [];
+        }
+
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
 
         /** @var QueryBuilder $queryBuilder */

@@ -21,21 +21,21 @@
 								<autoSizeMax>20</autoSizeMax>
 							</config>
 					</settings.marker>
-					<cluster>
+					<settings.cluster>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.cluster</label>
 							<config>
 								<type>check</type>
 							</config>
-					</cluster>
-					<cluster_radius>
+					</settings.cluster>
+					<settings.cluster_radius>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.cluster_radius</label>
-							<displayCond>FIELD:cluster:!=:0</displayCond>
+							<displayCond>FIELD:settings.cluster:!=:0</displayCond>
 							<config>
 								<type>input</type>
 								<size>5</size>
 								<eval>int</eval>
 							</config>
-					</cluster_radius>
+					</settings.cluster_radius>
 					<settings.width>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.width</label>
 							<config>
@@ -315,7 +315,7 @@
 								<default>1</default>
 							</config>
 					</settings.show_layerswitcher>
-					<layerswitcher_activationMode>
+					<settings.layerswitcher_activationMode>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.layerswitcher_activationMode</label>
 							<displayCond>
 								<and>
@@ -338,7 +338,7 @@
 								</items>
 								<default>2</default>
 							</config>
-					</layerswitcher_activationMode>
+					</settings.layerswitcher_activationMode>
 					<settings.show_fullscreen>
 							<label>LLL:EXT:ods_osm/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_fullscreen</label>
 							<displayCond>FIELD:settings.library:IN:openlayers,leaflet</displayCond>
