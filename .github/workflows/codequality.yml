@@ -31,11 +31,14 @@ jobs:
           path: ~/.composer/cache
           key: dependencies-composer-${{ hashFiles('composer.json') }}
 
-      - name: Install composer dependencies
+      - name: Install composer dependencies (build)
         run: |
           cd Build
           composer install --no-interaction --prefer-dist --no-progress
-          cd ..
+
+      - name: Install composer dependencies
+        run: |
+          composer install --no-interaction --prefer-dist --no-progress
           composer dump-autoload
 
       - name: Run phpstan checks
