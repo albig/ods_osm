@@ -38,7 +38,6 @@ jobs:
 
       - name: Install composer dependencies
         run: |
-          cd
           composer config --no-plugins allow-plugins.typo3/cms-composer-installers false
           composer config --no-plugins allow-plugins.typo3/class-alias-loader false
           composer install --no-interaction --prefer-dist --no-progress
