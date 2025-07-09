@@ -7,11 +7,14 @@ namespace Bobosch\OdsOsm\Controller;
 use Bobosch\OdsOsm\Domain\Model\Map;
 
 use Bobosch\OdsOsm\Domain\Repository\CategoryRepository;
-use Bobosch\OdsOsm\Domain\Repository\FrontendGroupRepository;
+use Bobosch\OdsOsm\Domain\Repository\FrontendUserGroupRepository;
 use Bobosch\OdsOsm\Domain\Repository\FrontendUserRepository;
 use Bobosch\OdsOsm\Domain\Repository\LayerRepository;
+use Bobosch\OdsOsm\Domain\Repository\MarkerRepository;
 use Bobosch\OdsOsm\Traits\SettingsTrait;
-use FriendsOfTYPO3\TtAddress\Domain\Repository\AddressRepository;
+
+use Bobosch\OdsOsm\Domain\Repository\TtAddressRepository as AddressRepository;
+// use FriendsOfTYPO3\TtAddress\Domain\Repository\AddressRepository;
 
 use Psr\Http\Message\ResponseInterface;
 
@@ -41,8 +44,11 @@ class MapController extends ActionController
     /** @var FrontendUserRepository */
     protected $frontendUserRepository;
 
-    /** @var FrontendGroupRepository */
-    protected $frontendGroupRepository;
+    /** @var FrontendUserGroupRepository */
+    protected $frontendUserGroupRepository;
+
+    /** @var MarkerRepository */
+    protected $markerRepository;
 
     /** @var array */
     protected $config = [];
@@ -80,11 +86,19 @@ class MapController extends ActionController
     }
 
     /**
-     * @param FrontendGroupRepository $frontendGroupRepository
+     * @param FrontendUserGroupRepository $frontendUserGroupRepository
      */
-    public function injectFrontendGroupRepository(FrontendGroupRepository $frontendGroupRepository): void
+    public function injectFrontendUserGroupRepository(FrontendUserGroupRepository $frontendUserGroupRepository): void
     {
-        $this->frontendGroupRepository = $frontendGroupRepository;
+        $this->frontendUserGroupRepository = $frontendUserGroupRepository;
+    }
+
+    /**
+     * @param MarkerRepository $markerRepository
+     */
+    public function injectMarkerRepository(MarkerRepository $markerRepository): void
+    {
+        $this->markerRepository = $markerRepository;
     }
 
     protected function initializeView(): void
@@ -130,6 +144,9 @@ class MapController extends ActionController
                             'tt_address',
                             'categories'
                         );
+                        // $markerToShow['marker'] = $this->categoryRepository->findByUid((int)$item[1]);
+                        $markerIconId = $this->categoryRepository->findByUid((int)$item[1])->getTxOdsosmMarker();
+                        $markerIcon = $this->markerRepository->findByUid($markerIconId);
                         // Loop on the results
                         foreach ($collection as $ttaddress) {
                             $markerToShow['tt_address'][] = $this->addressRepository->findByUid($ttaddress['uid']);
@@ -151,9 +168,15 @@ class MapController extends ActionController
                         }
                         break;
                     case 'fe_users':
-                        foreach ($markers as $marker) {
-                            $lons[] = $marker->getTxOdsosmLon();
-                            $lats[] = $marker->getTxOdsosmLat();
+                    case 'fe_groups':
+                            foreach ($markers as $marker) {
+                                if (is_array($marker)) {
+                                    $lons[] = $marker['tx_odsosm_lon'] ?? 0;
+                                    $lats[] = $marker['tx_odsosm_lat'] ?? 0;
+                                } else {
+                                    $lons[] = $marker->getTxOdsosmLon();
+                                    $lats[] = $marker->getTxOdsosmLat();
+                                }
                         }
                         break;
                 }

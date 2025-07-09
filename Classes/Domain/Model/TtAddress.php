@@ -18,33 +18,23 @@ declare(strict_types=1);
 namespace Bobosch\OdsOsm\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
+use Bobosch\OdsOsm\Domain\Model\Category;
 
 /**
- * The domain model of fe_groups.
+ * The domain model of sys_category.
  *
  * @entity
  */
-class FrontendGroup extends AbstractEntity
+class TtAddress extends \FriendsOfTYPO3\TtAddress\Domain\Model\Address
 {
-    /** @var string */
-    protected $title = '';
+    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Category> */
+    protected $categories;
 
-    /** @var int */
-    protected $txOdsosmMarker;
-
-    public function getTitle(): string
+    public function __construct()
     {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function getTxOdsosmMarker(): int
-    {
-        return $this->txOdsosmMarker;
+       $this->categories = new ObjectStorage();
     }
 
 }

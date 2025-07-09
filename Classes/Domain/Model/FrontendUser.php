@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace Bobosch\OdsOsm\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * The domain model of fe_users.
@@ -26,6 +27,11 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 class FrontendUser extends AbstractEntity
 {
+    /**
+     * @var ObjectStorage<FrontendUserGroup>|null
+     */
+    protected ObjectStorage|null $usergroup = null;
+
     /** @var string */
     protected $firstName = '';
 
@@ -46,6 +52,58 @@ class FrontendUser extends AbstractEntity
 
     /** @var float */
     protected $txOdsosmLat;
+
+    public function __construct()
+    {
+        $this->initializeObject();
+    }
+
+    /**
+     * Initializes all ObjectStorage properties when model is reconstructed from DB (where __construct is not called)
+     */
+    public function initializeObject(): void
+    {
+        $this->usergroup ??= new ObjectStorage();
+    }
+
+    /**
+     * Sets the usergroups. Keep in mind that the property is called "usergroup"
+     * although it can hold several usergroups.
+     *
+     * @param ObjectStorage<FrontendUserGroup> $usergroup
+     */
+    public function setUsergroup(ObjectStorage $usergroup): void
+    {
+        $this->usergroup = $usergroup;
+    }
+
+    /**
+     * Adds a usergroup to the frontend user
+     */
+    public function addUsergroup(FrontendUserGroup $usergroup): void
+    {
+        $this->usergroup?->attach($usergroup);
+    }
+
+    /**
+     * Removes a usergroup from the frontend user
+     */
+    public function removeUsergroup(FrontendUserGroup $usergroup): void
+    {
+        $this->usergroup?->detach($usergroup);
+    }
+
+    /**
+     * Returns the usergroups. Keep in mind that the property is called "usergroup"
+     * although it can hold several usergroups.
+     *
+     * @return ObjectStorage<FrontendUserGroup> An object storage containing the usergroup
+     */
+    public function getUsergroup(): ObjectStorage
+    {
+        $this->usergroup ??= new ObjectStorage();
+        return $this->usergroup;
+    }
 
     public function getLastName(): string
     {

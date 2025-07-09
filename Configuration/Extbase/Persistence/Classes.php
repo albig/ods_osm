@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 use Bobosch\OdsOsm\Domain\Model\Category;
-use Bobosch\OdsOsm\Domain\Model\FrontendGroup;
+use Bobosch\OdsOsm\Domain\Model\FrontendUserGroup;
 use Bobosch\OdsOsm\Domain\Model\FrontendUser;
 use Bobosch\OdsOsm\Domain\Model\Layer;
 use Bobosch\OdsOsm\Domain\Model\Marker;
+use Bobosch\OdsOsm\Domain\Model\TtAddress;
 
 return [
     Layer::class => [
@@ -18,10 +19,13 @@ return [
     FrontendUser::class => [
         'tableName' => 'fe_users',
     ],
-    FrontendGroup::class => [
+    FrontendUserGroup::class => [
         'tableName' => 'fe_groups',
     ],
     Category::class => [
         'tableName' => 'sys_category',
     ],
+    TtAddress::class => [
+        'tableName' => 'tt_address'
+    ]
 ];

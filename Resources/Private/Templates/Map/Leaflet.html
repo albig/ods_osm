@@ -70,7 +70,7 @@
         osm_{currentUid}.setView(center, {config.zoom})
 
         <f:for each="{marker.tt_address}" as="marker">
-            var tt_address_{marker.uid} = new L.Marker([{marker.latitude}, {marker.longitude}]).addTo(osm_{currentUid});
+            var tt_address_{marker.uid} = new L.Marker([{marker.latitude}, {marker.longitude}], {icon: new L.Icon({"iconSize":[60,60],"iconAnchor":[30,60],"popupAnchor":[0,-60],"iconUrl":"{marker.categories.0.txOdsosmMarker.icon.originalResource.publicUrl}"})}).addTo(osm_{currentUid});
             <f:if condition="{config.show_popups} == 1">
             tt_address_{marker.uid}.bindPopup("<h3>{marker.firstName} {marker.lastName}</h3><br \/><f:replace value="{marker.address -> oo:format.json()}" search='"' replace='' />, {marker.zip} {marker.city}<br\/><f:if condition="{marker.www}"><a href=https:\/\/{marker.www}>Website<\/a></f:if><br\/><f:replace value="{marker.description -> oo:format.json()}" search='"' replace='' />");
             </f:if>

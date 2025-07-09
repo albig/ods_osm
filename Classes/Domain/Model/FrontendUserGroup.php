@@ -20,16 +20,29 @@ namespace Bobosch\OdsOsm\Domain\Model;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 use Bobosch\OdsOsm\Domain\Model\Marker;
-use TYPO3\CMS\Extbase\Domain\Model\Category as CategoryExtbase;
+
 /**
- * The domain model of sys_category.
+ * The domain model of fe_groups.
  *
  * @entity
  */
-class Category extends CategoryExtbase
+class FrontendUserGroup extends AbstractEntity
 {
+    /** @var string */
+    protected $title = '';
+
     /** @var Marker */
     protected $txOdsosmMarker;
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
 
     /**
      * @param Marker $txOdsosmMarker

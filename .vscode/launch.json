@@ -13,6 +13,12 @@
             "pathMappings": {
                 "/var/www/extensions/ods_osm/": "${workspaceFolder}/",
             },
+			"xdebugSettings": {
+                "max_children": 200,
+                "max_data": 512,
+                "max_depth": 4,
+                "show_hidden": 1 //< show/forward private field info to the IDE
+            }
         }
     ]
 }
