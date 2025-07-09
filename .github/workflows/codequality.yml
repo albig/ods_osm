@@ -35,6 +35,7 @@ jobs:
         run: |
           cd Build
           composer install --no-interaction --prefer-dist --no-progress
+          cd ..
           composer dump-autoload
 
       - name: Run phpstan checks
