@@ -146,7 +146,7 @@ class MapController extends ActionController
                         );
                         // $markerToShow['marker'] = $this->categoryRepository->findByUid((int)$item[1]);
                         $markerIconId = $this->categoryRepository->findByUid((int)$item[1])->getTxOdsosmMarker();
-                        $markerIcon = $this->markerRepository->findByUid($markerIconId);
+                        // $markerIcon = $this->markerRepository->findByUid($markerIconId);
                         // Loop on the results
                         foreach ($collection as $ttaddress) {
                             $markerToShow['tt_address'][] = $this->addressRepository->findByUid($ttaddress['uid']);

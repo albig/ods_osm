@@ -8,6 +8,6 @@ use Bobosch\OdsOsm\Domain\Model\Marker;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- * @extends Repository<Map>
+ * @extends Repository<Marker>
  */
 class MarkerRepository extends Repository {}

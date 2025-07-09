@@ -15,3 +15,5 @@ parameters:
         requestGetAttributeMapping:
             frontend.page.information: \TYPO3\CMS\Frontend\Page\PageInformation
             frontend.cache.collector: \TYPO3\CMS\Core\Cache\CacheDataCollector
+    stubFiles:
+        - phpstan-stubs/FriendsOfTYPO3.TtAddress.Domain.Model.Address.stub
