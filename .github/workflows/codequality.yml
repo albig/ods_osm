@@ -35,8 +35,8 @@ jobs:
         run: |
           cd Build
           composer install --no-interaction --prefer-dist --no-progress
+          composer dump-autoload
 
       - name: Run phpstan checks
         run: |
-          composer dump-autoload
           Build/vendor/bin/phpstan --configuration=Build/phpstan/phpstan.neon
