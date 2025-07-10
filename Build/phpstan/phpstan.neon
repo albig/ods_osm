@@ -6,8 +6,8 @@ parameters:
 	paths:
 		- ../../Classes/
 		- ../../Configuration/
-  autoload_directories:
-    - ../Classes
+	autoload_directories:
+		- ../Classes
 
 	reportUnmatchedIgnoredErrors: true
 	ignoreErrors:
