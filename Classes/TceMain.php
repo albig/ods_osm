@@ -75,10 +75,8 @@ class TceMain
 
         switch ($table) {
             case 'tx_odsosm_track':
-                if (is_int($id)) {
-                    $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
-                    $fileObjects = $fileRepository->findByRelation('tx_odsosm_track', 'file', $id);
-                }
+                $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+                $fileObjects = $fileRepository->findByRelation('tx_odsosm_track', 'file', $id);
                 if ($fileObjects) {
                     $file = $fileObjects[0];
                 } else {
@@ -113,10 +111,8 @@ class TceMain
                 }
                 break;
             case 'tx_odsosm_marker':
-                if (is_int($id)) {
-                    $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
-                    $fileObjects = $fileRepository->findByRelation('tx_odsosm_marker', 'icon', $id);
-                }
+                $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+                $fileObjects = $fileRepository->findByRelation('tx_odsosm_marker', 'icon', $id);
                 if ($fileObjects) {
                     $file = $fileObjects[0];
                 } else {
@@ -145,10 +141,8 @@ class TceMain
                 }
                 break;
             case 'tx_odsosm_vector':
-                if (is_int($id)) {
-                    $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
-                    $fileObjects = $fileRepository->findByRelation('tx_odsosm_vector', 'file', $id);
-                }
+                $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+                $fileObjects = $fileRepository->findByRelation('tx_odsosm_vector', 'file', $id);
                 if ($fileObjects) {
                     $file = $fileObjects[0];
                 } else {
