@@ -6,8 +6,6 @@ parameters:
 	paths:
 		- ../../Classes/
 		- ../../Configuration/
-	autoload_files:
-		- vendor/autoload.php
 
 	reportUnmatchedIgnoredErrors: true
 	ignoreErrors:

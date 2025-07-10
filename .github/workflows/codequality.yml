@@ -44,4 +44,6 @@ jobs:
       - name: Run phpstan checks
         run: |
           cd Build
+          ls -l vendor/autoload.php
+          ls -l composer.lock
           vendor/bin/phpstan analyse -c phpstan/phpstan.neon
