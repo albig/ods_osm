@@ -29,6 +29,11 @@
       "jangregor/phpstan-prophecy": "^1.0",
 	  "friendsoftypo3/tt-address": "^9.0"
     },
+	"autoload": {
+		"psr-4": {
+		"Bobosch\\OdsOsm\\": "../Classes/"
+		}
+	},
     "config": {
       "lock": false,
       "allow-plugins": {
