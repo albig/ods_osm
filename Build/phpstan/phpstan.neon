@@ -2,18 +2,20 @@
 #  - phpstan-baseline.neon
 
 parameters:
-    level: 7
-    paths:
-        - ../../Classes/
-        - ../../Configuration/
+	level: 7
+	paths:
+		- ../../Classes/
+		- ../../Configuration/
+  autoload_directories:
+    - ../Classes
 
-    reportUnmatchedIgnoredErrors: true
-    ignoreErrors:
-        - identifier: missingType.iterableValue
+	reportUnmatchedIgnoredErrors: true
+	ignoreErrors:
+			- identifier: missingType.iterableValue
 #        - identifier: missingType.generics
-    typo3:
-        requestGetAttributeMapping:
-            frontend.page.information: \TYPO3\CMS\Frontend\Page\PageInformation
-            frontend.cache.collector: \TYPO3\CMS\Core\Cache\CacheDataCollector
-    stubFiles:
-        - phpstan-stubs/FriendsOfTYPO3.TtAddress.Domain.Model.Address.stub
+	typo3:
+		requestGetAttributeMapping:
+			frontend.page.information: \TYPO3\CMS\Frontend\Page\PageInformation
+			frontend.cache.collector: \TYPO3\CMS\Core\Cache\CacheDataCollector
+	stubFiles:
+		- phpstan-stubs/FriendsOfTYPO3.TtAddress.Domain.Model.Address.stub
