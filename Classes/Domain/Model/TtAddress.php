@@ -19,22 +19,28 @@ namespace Bobosch\OdsOsm\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-
-use Bobosch\OdsOsm\Domain\Model\Category;
+// use TYPO3\CMS\Extbase\Domain\Model\Category;
 
 /**
- * The domain model of sys_category.
+ * The domain model of tt_address.
  *
  * @entity
  */
 class TtAddress extends \FriendsOfTYPO3\TtAddress\Domain\Model\Address
 {
-    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Category> */
+    /**
+     * @var ObjectStorage<Category>
+     */
     protected $categories;
 
-    public function __construct()
+    public function getCategories(): ObjectStorage
     {
-       $this->categories = new ObjectStorage();
+        return $this->categories;
+    }
+
+    public function setCategories(ObjectStorage $categories): void
+    {
+        $this->categories = $categories;
     }
 
 }

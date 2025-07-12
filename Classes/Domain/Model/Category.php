@@ -21,6 +21,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 use Bobosch\OdsOsm\Domain\Model\Marker;
 use TYPO3\CMS\Extbase\Domain\Model\Category as CategoryExtbase;
+
 /**
  * The domain model of sys_category.
  *

@@ -138,18 +138,19 @@ class MapController extends ActionController
                     $markerToShow['fe_groups'] = GeneralUtility::makeInstance(GroupResolver::class)->findAllUsersInGroups(GeneralUtility::intExplode(',', $item[1] ?: ''), 'fe_groups', 'fe_users');
                     break;
                 case 'sys_category':
-                        $collection = CategoryCollection::load(
-                            (int)$item[1],
-                            true,
-                            'tt_address',
-                            'categories'
-                        );
+                        $category = $this->categoryRepository->findByUid((int)$item[1]);
+                        // Dein Marker-Objekt (sofern Mapping korrekt!)
+                        $marker = $category->getTxOdsosmMarker();
+                        // Jetzt alle tt_address-Datensätze mit dieser Category finden
+                        $collection = $this->addressRepository->findByCategory($category);
+
                         // $markerToShow['marker'] = $this->categoryRepository->findByUid((int)$item[1]);
-                        $markerIconId = $this->categoryRepository->findByUid((int)$item[1])->getTxOdsosmMarker();
+                        // $markerIconId = $this->categoryRepository->findByUid((int)$item[1])->getTxOdsosmMarker();
                         // $markerIcon = $this->markerRepository->findByUid($markerIconId);
                         // Loop on the results
                         foreach ($collection as $ttaddress) {
-                            $markerToShow['tt_address'][] = $this->addressRepository->findByUid($ttaddress['uid']);
+                            $markerToShow['tt_address'][] = $ttaddress;
+                            // $this->addressRepository->findByUid($ttaddress['uid']);
                         }
                     break;
             }

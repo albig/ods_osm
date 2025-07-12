@@ -15,7 +15,7 @@ class LonLat
     public function evaluateFieldValue($value): string
     {
         // test if we have any value
-        if ($value && $value !== '') {
+        if (is_numeric($value)) {
             return sprintf('%01.6f', $value);
         }
         return '';
